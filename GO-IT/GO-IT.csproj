@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{94A0ADA1-21E5-42C0-A7CB-F04EE3216447}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GO_IT</RootNamespace>
+    <AssemblyName>GO-IT</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MailKit, Version=1.12.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.1.12.0\lib\net451\MailKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MimeKit, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.1.12.0\lib\net451\MimeKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ASP web application.aspx" />
+    <Content Include="Cart.aspx" />
+    <Content Include="Changepassword.aspx" />
+    <Content Include="Checkout.aspx" />
+    <Content Include="Confirm.aspx" />
+    <Content Include="Dashboard.aspx" />
+    <Content Include="GetImage.aspx" />
+    <Content Include="Graphics design.aspx" />
+    <Content Include="images\empty-cart.png" />
+    <Content Include="images\gift.png" />
+    <Content Include="images\icons8-edit-48.png" />
+    <Content Include="images\icons8-garbage-30.png" />
+    <Content Include="images\icons8-purchases-20.png" />
+    <Content Include="images\icons8-search-512.png" />
+    <Content Include="images\icons8-shopping-cart-promotion-20.png" />
+    <Content Include="images\no-results.png" />
+    <Content Include="images\view.png" />
+    <Content Include="index.aspx" />
+    <Content Include="packages.config" />
+    <Content Include="GOInventory.cshtml" />
+    <Content Include="Portfolio.aspx" />
+    <Content Include="Privacy policy.aspx" />
+    <Content Include="Web design.aspx" />
+    <Content Include="Web development.aspx" />
+    <Content Include="Window application.aspx" />
+    <Content Include="Word processing.aspx" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Blog-Template.css" />
+    <Content Include="images\04BespokeNewYorkBrandingPrintBusinessCardsStationeryDIAUSABPOmin.jpg" />
+    <Content Include="images\05StudioSouthBrandIdentityProjectBrochureonBPOmin1.jpg" />
+    <Content Include="images\1286fb31-9fd4-4369-8aaf-413bbf69fc6b.jpg" />
+    <Content Include="images\13-131908_photoshop-7-0-logo-adobe-photoshop-7-0-logo.png" />
+    <Content Include="images\13064dd8-b859-4a0d-8b5b-0944d529a9c2.jpg" />
+    <Content Include="images\166797-rocket_digital_art-digital_art-illustration-art-graphics-1280x720.jpg" />
+    <Content Include="images\166798-skeleton-graphic_design-japanese_graphic_design-cartoon-design-1280x720.jpg" />
+    <Content Include="images\1813085405.jpeg" />
+    <Content Include="images\1e217ec466cdb1559855dffd989f7a546bbd253bc9c4df1f0ccc17b2ca810b61b75180807e2513938370ba1abfef1c91c8592044246801f49c63a4_1280.jpg" />
+    <Content Include="images\2.jpeg" />
+    <Content Include="images\2.png" />
+    <Content Include="images\20171014_165945.jpg" />
+    <Content Include="images\222553a749dcde051845c032ba11e013.jpeg" />
+    <Content Include="images\234.jpg" />
+    <Content Include="images\2341.jpg" />
+    <Content Include="images\2743630793-01.jpeg" />
+    <Content Include="images\298-2985521_c-logo-hd-png-download.png" />
+    <Content Include="images\3.jpeg" />
+    <Content Include="images\3.png" />
+    <Content Include="images\300-3007611_microsoft-office-word-2016-icon-hd-png-download.png" />
+    <Content Include="images\326f08696b0f3d7a9f28b5635af38ed31.png" />
+    <Content Include="images\32e1d1d559de737257f125559608f6f5.jpeg" />
+    <Content Include="images\358-3583191_i-will-program-c-sharp-wpf-and-winforms.png" />
+    <Content Include="images\3c47732aa688823b96f857f8b37921b6.png" />
+    <Content Include="images\3d8d6e19-251c-267a-68e3-0afa335c0df0.jpg" />
+    <Content Include="images\4.jpeg" />
+    <Content Include="images\4.png" />
+    <Content Include="images\5.png" />
+    <Content Include="images\51-511519_microsoft-office-word-logo-hd-png-download.png" />
+    <Content Include="images\5a60cfeb5eeac046c6e773eeb7c06964.png" />
+    <Content Include="images\5bb6f3372602850d0230d76fd987ffab8f01c5cee6d87c9de1e8cb60319b8d08aee8bed1505c52e646d2a4df57dbac0a2400bdfbdff05068fb1e09_1280.png" />
+    <Content Include="images\6.png" />
+    <Content Include="images\613-6131007_microsoft-excel-2016-logo-png-transparent-png.png" />
+    <Content Include="images\65f7c88b31988ade0bf27ce9897b0b58.jpeg" />
+    <Content Include="images\76ad54de-76a3-4973-8d72-5982d76db00c.jpg" />
+    <Content Include="images\78f2d653375bf3b7a954f658b57ee83d5907753d109805b6a0ffed6b11cdce4f8a184516f31e4c5a98121d692b075229a93eab480c2770e83f0946_1280.png" />
+    <Content Include="images\7d09063020040b96125c9760afc23d1c.jpg" />
+    <Content Include="images\82-825755_download-microsoft-office-365-png-office-365-pro.png" />
+    <Content Include="images\82896c5cfbeb3e9d628d685761d5106b.jpeg" />
+    <Content Include="images\8c7e4bdde0ae1c323cecda8bcc2cf810.jpg" />
+    <Content Include="images\8dc52c0f711979602e472cb74088d53b.jpeg" />
+    <Content Include="images\8fd61bc0-5bae-1121-8583-3332d09cf9eb.jpg" />
+    <Content Include="images\abeae987a6f362b2cf8f4ccb5fc2c1efe2d3b6de1b7fef75bc8fc2e615714b65c2f3d2e648b2a0e1796d6fc39a2d3bc84f1cf7bf79570ab0164c33_1280.jpg" />
+    <Content Include="images\asp-net.jpeg" />
+    <Content Include="images\asp-net2.jpg" />
+    <Content Include="images\asp-net3.jpg" />
+    <Content Include="images\asp-net4.png" />
+    <Content Include="images\ASP.jpg" />
+    <Content Include="images\b5f9e7f9-f0cf-42fb-96c9-3156bc7d64a2.jpg" />
+    <Content Include="images\blackwhitebusinesscards5.jpg" />
+    <Content Include="images\bSvYIp.jpg" />
+    <Content Include="images\c2d8d751435d17546c6dcd8f5da95afb.png" />
+    <Content Include="images\ca3c956e1057b5ce2863c5f0a21c09e3.png" />
+    <Content Include="images\cc24004b-3648-459a-a427-92b968bd416b.jpg" />
+    <Content Include="images\cd.png" />
+    <Content Include="images\choice-reusable-coffee-mug-mockups_53876-65824.jpg" />
+    <Content Include="images\Csharp.png" />
+    <Content Include="images\css.png" />
+    <Content Include="images\dark-mobile-device-mockup_149660-787.jpg" />
+    <Content Include="images\ddd-min.jpg" />
+    <Content Include="images\default-image.jpg" />
+    <Content Include="images\depositphotos_110282344-stock-photo-person-typing-on-laptop-with.jpg" />
+    <Content Include="images\dff.jpg" />
+    <Content Include="images\dotNET.png" />
+    <Content Include="images\dottedbg_32.png" />
+    <Content Include="images\dottedbg_321.png" />
+    <Content Include="images\download %281%29.jpg" />
+    <Content Include="images\download.jpg" />
+    <Content Include="images\e68ca818c40d38fb7484e0e64fcd3fb1.jpg" />
+    <Content Include="images\e7176968fc88a5540a57f287ff13ce4e.jpeg" />
+    <Content Include="images\e856549bdcf6d7f80158ddbc19252139bc1e557efc43733d90fdc6f068c5a8fdb23078d420b71f88b76582c1959e3f38c8e811110ecd823bdf985a_1280.jpg" />
+    <Content Include="images\f9e95c14b7f65aff23628e89fe290e03.jpeg" />
+    <Content Include="images\favicon.ico" />
+    <Content Include="images\fgg.jpg" />
+    <Content Include="images\gb2f64843c72889c4e0a0e099b1273be08b45d461152cf0c28b00550f51a1d31c05747bc52d08c7d664e0840cc358f538_1280.png" />
+    <Content Include="images\gffgfg.jpg" />
+    <Content Include="images\ghghghh.jpg" />
+    <Content Include="images\ghhggh-min.jpg" />
+    <Content Include="images\h8pkmo4e2p5o3posfxyg.jpg" />
+    <Content Include="images\hggh6-min.jpg" />
+    <Content Include="images\home4revimg1.jpg" />
+    <Content Include="images\html.jpg" />
+    <Content Include="images\https_2F2Fhypebeast.com2Fimage2F20182F092Fadidasnmdr1blackwhitenewlogobrandingreleasedate01.jpg" />
+    <Content Include="images\istockphoto-899635470-170667a.jpg" />
+    <Content Include="images\javascript.jpg" />
+    <Content Include="images\javascript.png" />
+    <Content Include="images\logo %282%29.png" />
+    <Content Include="images\LOGO.png" />
+    <Content Include="images\LOGO1.png" />
+    <Content Include="images\logo2.png" />
+    <Content Include="images\logo3.png" />
+    <Content Include="images\myfav.png" />
+    <Content Include="images\pexels-photo-2058138.jpeg" />
+    <Content Include="images\pexels-photo-2102415.jpeg" />
+    <Content Include="images\pexels-photo-2422294.jpeg" />
+    <Content Include="images\pexels-photo-3285196.jpeg" />
+    <Content Include="images\photoshop-png-logo-3086.html" />
+    <Content Include="images\Photo_1644774334053.png" />
+    <Content Include="images\PHP-MySQL.jpg" />
+    <Content Include="images\PHP.png" />
+    <Content Include="images\PHP_1.png" />
+    <Content Include="images\pink-neon-night-business-sign_23-2148874638.jpg" />
+    <Content Include="images\pngtree-logo-design-template-png-image_6275572.png" />
+    <Content Include="images\purple-creative-flyer-template_1051-1729.jpg" />
+    <Content Include="images\rtt-min.jpg" />
+    <Content Include="images\rttyrrt.jpg" />
+    <Content Include="images\smartphone-with-weather-app-colorful-liquid-background_23-2148215468.jpg" />
+    <Content Include="images\testimonial.jpg" />
+    <Content Include="images\Untitled1.jpg" />
+    <Content Include="images\Untitled11.jpg" />
+    <Content Include="images\Untitled13.jpg" />
+    <Content Include="images\v.jpg" />
+    <Content Include="images\web-design.jpg" />
+    <Content Include="images\web-design2.jpg" />
+    <Content Include="images\web-design3.jpg" />
+    <Content Include="images\web-development.jpg" />
+    <Content Include="images\web-development2.jpg" />
+    <Content Include="images\web-development3.jpg" />
+    <Content Include="images\windows.jpg" />
+    <Content Include="images\windows2.jpg" />
+    <Content Include="images\windows3.jpg" />
+    <Content Include="images\windows4.jpg" />
+    <Content Include="images\windows5.jpg" />
+    <Content Include="images\xc.jpg" />
+    <Content Include="images\xcccx.jpg" />
+    <Content Include="images\yyyy.jpg" />
+    <Content Include="jquery.js" />
+    <Content Include="MyStyle.css" />
+    <Content Include="nicepage.css" />
+    <Content Include="nicepage.js" />
+    <Content Include="Our-Products.css" />
+    <Content Include="Privacy policy.html" />
+    <Content Include="Register.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ASP web application.aspx.cs">
+      <DependentUpon>ASP web application.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ASP web application.aspx.designer.cs">
+      <DependentUpon>ASP web application.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cart.aspx.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cart.aspx.designer.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Changepassword.aspx.cs">
+      <DependentUpon>Changepassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Changepassword.aspx.designer.cs">
+      <DependentUpon>Changepassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Checkout.aspx.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Checkout.aspx.designer.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Confirm.aspx.cs">
+      <DependentUpon>Confirm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Confirm.aspx.designer.cs">
+      <DependentUpon>Confirm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GeneralClass.cs" />
+    <Compile Include="GetImage.aspx.cs">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GetImage.aspx.designer.cs">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics design.aspx.cs">
+      <DependentUpon>Graphics design.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Graphics design.aspx.designer.cs">
+      <DependentUpon>Graphics design.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Portfolio.aspx.cs">
+      <DependentUpon>Portfolio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Portfolio.aspx.designer.cs">
+      <DependentUpon>Portfolio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Privacy policy.aspx.cs">
+      <DependentUpon>Privacy policy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Privacy policy.aspx.designer.cs">
+      <DependentUpon>Privacy policy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web design.aspx.cs">
+      <DependentUpon>Web design.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web design.aspx.designer.cs">
+      <DependentUpon>Web design.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web development.aspx.cs">
+      <DependentUpon>Web development.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web development.aspx.designer.cs">
+      <DependentUpon>Web development.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Window application.aspx.cs">
+      <DependentUpon>Window application.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Window application.aspx.designer.cs">
+      <DependentUpon>Window application.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Word processing.aspx.cs">
+      <DependentUpon>Word processing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Word processing.aspx.designer.cs">
+      <DependentUpon>Word processing.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="fontawesome-free-6.1.1-web\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>2599</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:2599/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
