@@ -212,6 +212,44 @@
 
               document.getElementById('a_order').style.borderBottomStyle = "none";
           }
+
+          function Tab(evt, tabname, linkname)
+          {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+                  tabcontent[i].style.display = "none";
+              }
+
+              tablinks = document.getElementsByName("tablinks");
+              for (i = 0; i < tablinks.length; i++) {
+                  //tablinks[i].className = tablinks[i].className.replace("active", "");
+                  tablinks[i].style.borderBottom = "none";
+              }
+
+              document.getElementById(tabname).style.display = "block";
+              //evt.currentTarget.className += " active";
+              document.getElementById(linkname).style.borderBottom = "4px solid blue";
+          }
+
+          function Tab2(evt, tabname, linkname)
+          {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByName("tabcontent2");
+              for (i = 0; i < tabcontent.length; i++) {
+                  tabcontent[i].style.display = "none";
+              }
+
+              tablinks = document.getElementsByName("tablinks2");
+              for (i = 0; i < tablinks.length; i++) {
+                  //tablinks[i].className = tablinks[i].className.replace("active", "");
+                  tablinks[i].style.borderBottom = "none";
+              }
+
+              document.getElementById(tabname).style.display = "block";
+              //evt.currentTarget.className += " active";
+              document.getElementById(linkname).style.borderBottom = "4px solid blue";
+          }
       </script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Home">
@@ -627,6 +665,55 @@
             overflow-x:hidden;
             box-sizing:border-box;
         }
+
+        .tab
+        {
+           display:block;
+           list-style:none;
+           margin:0;
+           padding:0;
+           height:auto;
+           box-sizing:border-box;
+           background-color:transparent;
+        }
+
+        .tab li
+        {
+           padding:5px 7px;
+           margin:0;
+           background-color:transparent;
+           display:inline-block;
+           box-sizing:border-box;
+           border:0px solid black;   
+        }
+
+        .tab li.active
+        {
+           border-bottom:4px solid blue;
+        }
+
+        .tabcontent
+        {
+            display:none;
+            border:1px solid gray;
+            border-radius:5px;
+            padding:10px;
+            height:550px;
+            overflow-y:auto;
+            overflow-x:hidden;
+            box-sizing:border-box;
+        }
+        
+        .my-tab-content
+        {
+            display:block;
+            height:auto;
+        }
+
+        .my-tab-content div.active
+        {
+            display:block;
+        }
         
         @media only screen and (max-width: 1000px)
         {
@@ -698,7 +785,7 @@
             </label><br />
             <label>
                 Date ordered:<br />
-                <asp:TextBox TextMode="SingleLine" runat="server" ID="o_Date" Visible="true" disabled="true"></asp:TextBox>
+                <asp:TextBox TextMode="SingleLine" runat="server" ID="o_Date" Visible="true" ReadOnly="true"></asp:TextBox>
             </label><br />
             <label>
                 Date expected:<br />
@@ -903,7 +990,10 @@
     <asp:Panel ID="g_overlay" CssClass="overlay3" runat="server" Visible="false"></asp:Panel>
     <asp:Panel ID="g_editmodal" CssClass="editmodal3" runat="server" Visible="false">
        <asp:LinkButton runat="server" CssClass="cancel2" OnClick="cancel3">&times;</asp:LinkButton><br /><br />
-        <div runat="server" id="restore_container">
+
+        <!--Restore function-->
+
+        <div runat="server" id="restore_container" style="display:none;">
             <asp:Panel runat="server" Visible="true" style="padding:7px; color:darkgreen; background-color:rgba(182, 255, 0, .7); border:1px double darkgreen; border-radius:15px;" ID="func_info">
               <li runat="server" id="func_exist">Please verify your password before restoring this function, to confirm it is you</li>
             </asp:Panel><br />
@@ -939,6 +1029,186 @@
             </div>
             <div align="right" id="restore_good" runat="server" style="display:none;">
                 <asp:Button runat="server" Text="Restore function" ID="confirm_func_restore" OnClick="confirm_func_restore_Click" /> 
+            </div>
+        </div>
+
+        <!--Revision order(edit)-->
+
+        <div id="revision_order_container" style="display:none;" runat="server">
+            <div id="rev_o_success_contain" style="display:none" runat="server">
+                <asp:Panel runat="server" Visible="false" style="padding:7px; color:darkgreen; background-color:rgba(182, 255, 0, .7); border:1px double darkgreen; border-radius:15px;" ID="rev_o_success">
+                    <li runat="server" id="rev_o_successText">Revision updated successfully...</li>
+                </asp:Panel><br />
+            </div>
+            
+            <label>
+                Order ID:<br />
+                <input type="text" id="rev_o_ID" placeholder="Project id..." readonly runat="server" />
+            </label><br />
+            <label>
+                Project Name:<br />
+                <input type="text" id="rev_o_ProjectName" placeholder="Project name..." runat="server" />
+                <asp:Label ID="rev_o_ProjectNameError" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+            <label>
+                Date ordered:<br />
+                <asp:TextBox TextMode="SingleLine" runat="server" ID="rev_o_DateOrdered" Visible="true" readonly></asp:TextBox>
+            </label><br />
+            <label>
+                Date expected:<br />
+               <asp:TextBox TextMode="Date" ID="rev_o_DateExpected" runat="server" CssClass="date"></asp:TextBox>
+                <asp:Label ID="rev_o_DateExpectedError" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+            <label>
+                Project Description:<br />
+                <textarea id="rev_o_Description" style="width:100%" rows="10" placeholder="Project description..." runat="server" ></textarea>
+                <asp:Label ID="rev_o_DescriptionError" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+                
+            <label>
+                Project Features:<br />
+                <textarea style="width:100%" id="rev_o_Features" rows="10" placeholder="Project features..." runat="server" ></textarea>
+                <asp:Label ID="rev_o_FeaturesError" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+
+            <label>
+                Attachment1: <span id="rev_o_A1" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A1Upload" />
+            </label><br />
+
+            <label>
+                Attachment2: <span id="rev_o_A2" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A2Upload" />
+            </label><br />
+
+            <label>
+                Attachment3: <span id="rev_o_A3" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A3Upload" />
+            </label><br />
+
+            <div>
+                <asp:datalist id="rev_o_ExtraFunctionlList" runat="server" RepeatColumns="1" RepeatDirection="Vertical" style="width:100%;">
+                    <HeaderTemplate>
+                        <div class="container-fluid" style="padding:10px; font-size:25px;">
+                            <div class="row">
+                                <label class="col-xl-12">
+                                    Extra functions
+                                </label>
+                            </div>
+                            <div align="center"><hr /></div>
+                        </div>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <div class="container-fluid" style="padding:0px 10px;">
+                             <div class="row" style="padding:10px 0px; margin-top:-15px;">
+                                <div style="width:70%">
+                                    <asp:Label ID="funcName" runat="server" Text='<%#Eval("Name")%>'></asp:Label>
+                                    <asp:Label ID="funcID" runat="server" Text='<%#Eval("ID")%>' Visible="false"></asp:Label>
+                                </div>
+                                <div style="width:30%">
+                                    <div style="float:right;">
+                                        <asp:LinkButton runat="server" ID="rev_o_funcsave" style="text-decoration:none" OnClick="rev_o_funcsave_Click">Save</asp:LinkButton>&nbsp; 
+                                        <asp:LinkButton runat="server" ID="rev_o_funcdelete" OnClick="rev_o_funcdelete_Click"><img src="images/icons8-garbage-30.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <asp:TextBox TextMode="MultiLine" style="width:100%; height:120px;" runat="server" id="funcDescribe" Text='<%#Eval("Description")%>'></asp:TextBox>
+                                    <asp:Label ID="error" runat="server" Visible="false" style="color:orangered; display:block;"></asp:Label>
+                                </div>
+                                <asp:Label style="font-size:14px; color:blue" ID="funcWarn" runat="server"><li>Make sure you save every edited function, else it won't be updated as a revision. Do NOT delete any function unless needed because it can't be reversed...</li></asp:Label>
+                            </div>
+                            <hr />
+                        </div> 
+                    </ItemTemplate>
+                </asp:datalist>
+            </div>
+            <br />
+            <div align="right"><asp:Button runat="server" Text="Save changes" ID="rev_o_Save" OnClick="rev_o_Save_Click" /> </div>
+        </div>
+
+        <!--Revision order(delete)-->
+
+        <div id="revision_delete_order_container" runat="server" style="display:none;">
+            <asp:Panel runat="server" Visible="true" style="padding:7px; color:darkgreen; background-color:rgba(182, 255, 0, .7); border:1px double darkgreen; border-radius:15px;">
+              <li runat="server">Please verify your password before deleting this revision, to confirm it is you</li>
+            </asp:Panel><br />
+
+            <label>
+                Order ID:
+                <asp:Label ID="rev_o_del_ID" runat="server"></asp:Label>
+            </label><br />
+
+            <div class="row">
+                <label class="col-xl-12">
+                    Please whats the reason for deleting this revision
+                    <asp:TextBox ID="rev_o_del_reason" TextMode="MultiLine" style="width:100%; height:150px" runat="server"></asp:TextBox>
+                </label>
+                <asp:Label ID="rev_o_del_reasonError" runat="server" Visible="false" CssClass="error"></asp:Label>
+            </div>
+            
+            <div class="row">
+                <label class="col-xl-12">
+                    <input id="rev_o_del_pword" type="password" runat="server" placeholder="Verify your password here!" />
+                </label>
+                <asp:Label ID="rev_o_del_pwordError" runat="server" Visible="false" CssClass="error"></asp:Label>
+            </div>
+                        
+            <br />
+            <div align="right"><asp:Button runat="server" Text="Delete order" ID="rev_o_del_ConfirmDelete" OnClick="rev_o_del_ConfirmDelete_Click" /> </div>
+        </div>
+
+        <!--Revision function(edit)-->
+
+        <div id="rev_func_container" class="container-fluid" style="display:none" runat="server">
+            <div id="rev_func_success_container" style="display:none" runat="server">
+                <asp:Panel runat="server" Visible="false" style="padding:7px; color:darkgreen; background-color:rgba(182, 255, 0, .7); border:1px double darkgreen; border-radius:15px;" ID="rev_func_success">
+                    <li runat="server" id="rev_func_successText">Function updated successfully...</li>
+                </asp:Panel><br />
+            </div>
+            <label>
+                <b>Function ID:</b>
+                <asp:Label ID="rev_func_id" runat="server"></asp:Label>
+            </label>
+            <strong><asp:Label ID="rev_func_name" runat="server"></asp:Label></strong>
+            <label>
+                <textarea id="rev_func_describe" runat="server" style="width:100%" rows="10"></textarea>
+            </label>
+            <label>
+                <asp:Label ID="rev_func_describe_error" Visible="false" CssClass="error" runat="server"></asp:Label>
+            </label>
+            <div align="right">
+                <asp:Button ID="rev_func_save" runat="server" Text="Save changes..." OnClick="rev_func_save_Click" />
+            </div>
+        </div>
+
+        <!--Revision function(delete)-->
+
+        <div runat="server" id="rev_func_del_container" style="display:none;">
+            <asp:Panel runat="server" Visible="true" style="padding:7px; color:darkgreen; background-color:rgba(182, 255, 0, .7); border:1px double darkgreen; border-radius:15px;" ID="rev_func_del_warn">
+              <li runat="server" id="rev_func_del_warnText">Please verify your password before deleting this function, to confirm it is you</li>
+            </asp:Panel><br />
+
+            <label>
+                Function ID:
+                <asp:Label ID="rev_func_del_ID" runat="server"></asp:Label>
+            </label><br />
+
+            <div class="row">
+                <label class="col-xl-12">
+                    Please whats the reason for deleting this function
+                    <asp:TextBox ID="rev_func_del_reason" TextMode="MultiLine" style="width:100%; height:150px" runat="server"></asp:TextBox>
+                </label>
+                <asp:Label ID="rev_func_del_reasonError" runat="server" Visible="false" CssClass="error" Text="*This field must not be lass than 20 characters..."></asp:Label>
+            </div>
+            
+            <div class="row">
+                <label class="col-xl-12">
+                    <input id="rev_func_del_pword" type="password" runat="server" placeholder="Verify your password here!" />
+                </label>
+                <asp:Label ID="rev_func_del_pwordError" runat="server" Visible="false" CssClass="error" Text="*Password is incorrect"></asp:Label>
+            </div>
+            
+            <div align="right">
+                <asp:Button runat="server" Text="Delete function" ID="rev_func_confirmDelete" OnClick="rev_func_confirmDelete_Click" /> 
             </div>
         </div>
     </asp:Panel>
@@ -1585,32 +1855,346 @@
 
                   <!--Revisions-->
 
-                  <div id="revisions" style="display:none; background:transparent; padding:20px;" runat="server" class="sections">
-                      <asp:Panel runat="server" ID="revision_null">
-                          <div align="center">
-                              <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
-                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've no revisions...</p>
-                              <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
-                          </div>
-                      </asp:Panel>
-                      <asp:Panel Visible="false" runat="server" ID="revision_yes">
+                  <div id="revisions" style="display:none; background:transparent; padding:0px; margin:0;" runat="server" class="sections">               
+                      <div class="container-fluid">
+                          <ul class="tab">
+                              <li class="tablinks active" id="order_link" name="tablinks" onclick="Tab('event', 'rev_orders', 'order_link')"><a href="#rev_orders">Revision(Orders)</a></li>
+                              <li class=" tablinks" id="func_link" name="tablinks" onclick="Tab('event', 'rev_functions', 'func_link')"><a href="#rev_functions">Revision(Functions)</a></li>
+                          </ul>
+                          <div class="my-tab-content">
+                              <div class="tabcontent active" name="tabcontent" id="rev_orders">
+                                  <!--Revision Head-->
+                          <div style="font-family:Montserrat;" class="row">
+                                              <h5 style="font-family:Montserrat; background-color:transparent; padding-bottom:7px" class="col-xl-4">
+                                                &nbsp; Total revisions(orders): <asp:Label style="text-decoration:none; font-style:normal" ID="Trevisions1" runat="server"></asp:Label>
+                                              </h5>
+                                              <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                                  <asp:TextBox TextMode="search" ID="r_search1" placeholder="Search orders..." runat="server" style="width:80%; height:40px" OnTextChanged="r_search1_TextChanged"></asp:TextBox> 
+                                                  <asp:LinkButton ID="r_go1" runat="server" OnClick="r_go1_Click"><img style="width:30px; height:auto;" src="images/icons8-search-512.png" alt="search" /></asp:LinkButton>
+                                              </div>
+                                              <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                                  <b>Search by:</b> 
+                                                  <select name="searchby" id="r_searchby1" runat="server" style="height:40px; width:50%;">
+                                                      <option value="orderid" runat="server">OrderID</option>
+                                                      <option value="servicename" runat="server">Service name</option>
+                                                      <option value="projectname" runat="server">Project name</option>
+                                                  </select>
+                                              </div>      
+                                          </div>
+                                          <hr />
+                          <!--Revision Searchnull-->
+                          <asp:Panel runat="server" ID="r_searchnull1" >
+                                               <div align="center">
+                                                  <img src="images/no-results.png" alt="image not found" style="width:200px; height:auto;" />
+                                                  <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1" id="r_searchtext1" runat="server"></p>
+                                              </div>
+                                          </asp:Panel>
+                          <!--Revision empty-->
+                          <asp:Panel runat="server" ID="revision_null">
+                              <div align="center">
+                                  <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
+                                  <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've no revisions...</p>
+                                  <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
+                              </div>
+                          </asp:Panel>
+                          <!--Revision available-->
+                          <asp:Panel Visible="true" runat="server" ID="revision_yes">
+                              <asp:DataList ID="revisionOrderList" RepeatColumns="1" RepeatDirection="Horizontal" runat="server" Width="100%" style="background-color:transparent;" >
+                                    <ItemTemplate>
+                                        <div class="container-fluid">
+                                            <div class="row" style="background-color:transparent; padding:10px 0px; box-sizing:border-box;">
+                                                <div class="col-xl-2" style="background-color:transparent; height:auto;">
+                                                    <img src='<%#Eval("image")%>' style="width:100px; height:100px;" />
+                                                </div>
+                                                <div class="col-xl-4" style="background-color:transparent; height:auto; ">
+                                                    <asp:Label ID="servicename" runat="server" Text='<%#"<b>Service:</b> "+Eval("ServiceName")%>'></asp:Label><br /><br />
+                                               
+                                                    <label>
+                                                        <b>Features:</b>
+                                                        <asp:Label ID="features" runat="server" Text='<%#Eval("Features").ToString().Length>20?Eval("Features").ToString().Substring(0,20) + "...":Eval("Features").ToString()%>' ></asp:Label>
+                                                        <br /><br />
+                                                    </label>                                             
 
-                      </asp:Panel>
+                                                    <label style="display:none;">
+                                                        <asp:Label ID="id" runat="server" Text='<%#"<b>OrderID:</b> "+Eval("OrderID")%>'></asp:Label><br /><br />
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-3" style="background-color:transparent; height:auto; ">
+                                                    <asp:Label ID="pName" runat="server" Text='<%#"<b>Project:</b> "+Eval("ProjectName")%>'></asp:Label><br /><br />
+                                                    <label>
+                                                        <b>Description:</b>
+                                                        <asp:Label ID="Description" runat="server" Text='<%#Eval("Description").ToString().Length>20?Eval("Description").ToString().Substring(0,20) + "...":Eval("Description").ToString()%>' ></asp:Label>
+                                                        <br /><br />
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-2" style="background-color:transparent; height:auto;">
+                                                    <label>
+                                                        <b>Quantity:</b>
+                                                        <asp:Label ID="qty" runat="server" Text='<%#Eval("Quantity") %>'></asp:Label>
+                                                    </label><br />
+
+                                                    <label>
+                                                        <b>Total:</b>
+                                                       <span>N</span> <asp:Label ID="Total" runat="server" Text='<%#Eval("TotalAmount") %>' />
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-1" style="background-color:transparent; height:auto;">
+                                                    <div style="float:right;">
+                                                        <asp:LinkButton ID="r_view1" runat="server" OnClick="r_view1_Click"><img style="width:20px; height:auto;" src="images/view.png" alt="view" /></asp:LinkButton>
+                                                        <asp:LinkButton ID="r_delete1" runat="server" OnClick="r_delete1_Click"><img style="width:20px; height:auto;" src="images/icons8-garbage-30.png" alt="delete" /></asp:LinkButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        </div>
+                        
+                                    </ItemTemplate>      
+                              </asp:DataList>
+                          </asp:Panel>
+                              </div>
+                              <!--Revision Functions-->
+                              <div class="tabcontent" id="rev_functions" name="tabcontent">
+                                  <!--Revision Functions Head-->
+                                  <div style="font-family:Montserrat;" class="row">
+                                          <h5 style="font-family:Montserrat; background-color:transparent; padding-bottom:7px" class="col-xl-4">
+                                            &nbsp; Total revisions(functions): <asp:Label style="text-decoration:none; font-style:normal" ID="Trevisions2" runat="server"></asp:Label>
+                                          </h5>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <asp:TextBox TextMode="search" ID="r_search2" placeholder="Search functions..." runat="server" style="width:80%; height:40px" OnTextChanged="r_search2_TextChanged"></asp:TextBox> 
+                                              <asp:LinkButton ID="r_go2" runat="server" OnClick="r_go2_Click"><img style="width:30px; height:auto;" src="images/icons8-search-512.png" alt="search" /></asp:LinkButton>
+                                          </div>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <b>Search by:</b> 
+                                              <select name="searchby" id="r_searchby2" runat="server" style="height:40px; width:50%;">
+                                                  <option value="orderid" runat="server">OrderID</option>
+                                                  <option value="funcid" runat="server">FunctionID</option>
+                                              </select>
+                                          </div>      
+                                      </div>
+                                      <hr />
+                                  <!--Revision Functions searchnull-->
+                                      <asp:Panel runat="server" ID="r_searchnull2" >
+                                           <div align="center">
+                                              <img src="images/no-results.png" alt="image not found" style="width:200px; height:auto;" />
+                                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1" id="r_searchtext2" runat="server"></p>
+                                          </div>
+                                      </asp:Panel>
+                                  <!--Revision Functions empty-->
+                                      <asp:Panel runat="server" ID="revision_null2">
+                                          <div align="center">
+                                              <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
+                                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've not cancelled any functions yet...</p>
+                                              <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
+                                          </div>
+                                      </asp:Panel>
+                                  <!--Revision Functions available-->
+                                      <asp:Panel runat="server" ID="revision_yes2">
+                                          <asp:datalist id="revisionFunctionList" runat="server" RepeatColumns="1" RepeatDirection="Vertical" style="width:100%;">
+                                            <ItemTemplate>
+                                                <div class="container-fluid" style="padding:0px 10px;">
+                                                     <div class="row" style="padding:10px 0px; margin-top:-15px;">
+                                                        <div style="width:90%">
+                                                            <b><asp:Label ID="funcName" runat="server" Text='<%#Eval("Name")%>'></asp:Label></b>
+                                                            <asp:Label ID="funcID" runat="server" Text='<%#Eval("ID")%>' Visible="false"></asp:Label>
+                                                        </div>
+                                                         <div align="right" style="width:10%">
+                                                             <asp:LinkButton runat="server" ID="rev_func_edit" OnClick="rev_func_edit_Click"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                             <asp:LinkButton runat="server" ID="rev_func_delete" OnClick="rev_func_delete_Click"><img src="images/icons8-garbage-30.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                         </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <asp:Label runat="server" id="funcDescribe" style="word-break:break-word;" Text='<%#Eval("Description")%>'></asp:Label>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div> 
+                                            </ItemTemplate>
+                                        </asp:datalist>     
+                                      </asp:Panel>
+                              </div>
+                          </div>
+                      </div>
                   </div>
                                     
                   <!--Transactions-->
 
-                  <div id="transactions" style="display:none; background:transparent; padding:20px;" runat="server" class="sections">
-                      <asp:Panel runat="server" ID="transaction_null">
-                          <div align="center">
-                              <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
-                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've not made any transactions yet...</p>
-                              <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
+                  <div id="transactions" style="display:none; background:transparent; padding:0px; margin:0;" runat="server" class="sections">
+                      <div class="container-fluid">
+                          <ul class="tab">
+                              <li class="tablinks active" name="tablinks2" id="transacton_link" onclick="Tab2('event', 'transactions_tab', 'transacton_link')"><a href="#transactions_tab">Transactions</a></li>
+                              <li class="tablinks" id="refunds_link" name="tablinks2" onclick="Tab2('event', 'refunds_tab', 'refunds_link')"><a href="#refunds_tab">Pending refunds</a></li>
+                          </ul>
+                          <div class="my-tab-content">
+                              <!--Transactions tab-->
+                              <div class="tabcontent active" name="tabcontent2" id="transactions_tab">
+                                   <!--Transactions head-->
+                                   <div style="font-family:Montserrat;" class="row">
+                                          <h5 style="font-family:Montserrat; background-color:transparent; padding-bottom:7px" class="col-xl-4">
+                                            &nbsp; Total transactions: <asp:Label style="text-decoration:none; font-style:normal" ID="Ttransactions" runat="server"></asp:Label>
+                                          </h5>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <asp:TextBox TextMode="search" ID="t_search" placeholder="Search transactions..." OnTextChanged="t_search_TextChanged" runat="server" style="width:80%; height:40px"></asp:TextBox> 
+                                              <asp:LinkButton ID="t_go" runat="server" OnClick="t_go_Click"><img style="width:30px; height:auto;" src="images/icons8-search-512.png" alt="search" /></asp:LinkButton>
+                                          </div>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <b>Search by:</b> 
+                                              <select name="searchby" id="t_searchby" runat="server" style="height:40px; width:50%;">
+                                                  <option value="transactionID" runat="server">Transaction ID</option>
+                                                  <option value="orderid" runat="server">OrderID</option>
+                                              </select>
+                                          </div>      
+                                      </div>
+                                      <hr />
+                                   <!--Transactions searchnull-->
+                                  <asp:Panel runat="server" ID="t_searchnull" >
+                                           <div align="center">
+                                              <img src="images/no-results.png" alt="image not found" style="width:200px; height:auto;" />
+                                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1" id="t_searchnulltext" runat="server"></p>
+                                          </div>
+                                      </asp:Panel>
+                                  <!--Transactions null-->
+                                  <asp:Panel runat="server" ID="transaction_null">
+                                      <div align="center">
+                                          <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
+                                          <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've not made any transactions yet...</p>
+                                          <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
+                                      </div>
+                                  </asp:Panel>
+                                  <!--Transactions available-->
+                                  <asp:Panel Visible="true" runat="server" ID="transaction_yes">
+                                      <asp:DataList ID="transactionsList" RepeatDirection="Vertical" RepeatColumns="1" runat="server" style="width:100%; background-color:transparent">
+                                          <ItemTemplate>
+                                              <div class="container-fluid" style="width:100%;">
+                                                  <div class="row" style="padding:10px 0px; background-color:transparent; width:100%;">
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Transaction ID:</b>
+                                                          <asp:Label ID="id" runat="server" Text='<%#Eval("TransactionID")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                      <label>
+                                                          <b>Total Amount </b>
+                                                          <asp:Label ID="totalAmt" runat="server" Text='<%#Eval("TotalAmount")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Amount Paid:</b>
+                                                          <asp:Label ID="amtPaid" runat="server" Text='<%#Eval("AmountPaid")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                      <label>
+                                                          <b>Amount Remain:</b>
+                                                          <asp:Label ID="amtRemain" runat="server" Text='<%#Eval("AmountRemain")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Date Paid:</b>
+                                                          <asp:Label ID="datePaid" runat="server" Text='<%#Eval("DatePaid").ToString()%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                      <label>
+                                                          <b>Description:</b>
+                                                          <asp:Label ID="description" runat="server" Text='<%#Eval("Description").ToString()==""||Eval("Description").ToString()==null?"Null":Eval("Description")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>OrderID:</b>
+                                                          <asp:Label ID="Label1" runat="server" Text='<%#Eval("OrderID")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                              </div>
+                                              </div>
+                                              <hr />
+                                          </ItemTemplate>
+                                      </asp:DataList>
+                                  </asp:Panel>
+                              </div>
+                              <!--Refunds tab-->
+                              <div class="tabcontent" name="tabcontent2" id="refunds_tab">
+                                  <!--Refunds head-->
+                                   <div style="font-family:Montserrat;" class="row">
+                                          <h5 style="font-family:Montserrat; background-color:transparent; padding-bottom:7px" class="col-xl-4">
+                                            &nbsp; Total refunds: <asp:Label style="text-decoration:none; font-style:normal" ID="Trefunds" runat="server"></asp:Label>
+                                          </h5>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <asp:TextBox TextMode="search" ID="refunds_search" OnTextChanged="refunds_search_TextChanged" placeholder="Search refunds..." runat="server" style="width:80%; height:40px"></asp:TextBox> 
+                                              <asp:LinkButton ID="refunds_go" runat="server" OnClick="refunds_go_Click"><img style="width:30px; height:auto;" src="images/icons8-search-512.png" alt="search" /></asp:LinkButton>
+                                          </div>
+                                          <div style="background-color:transparent; padding-bottom:10px" class="col-xl-4">
+                                              <b>Search by:</b> 
+                                              <select name="searchby" id="refunds_searchby" runat="server" style="height:40px; width:50%;">
+                                                  <option value="refundID" runat="server">Refund ID</option>
+                                                  <option value="orderid" runat="server">OrderID</option>
+                                              </select>
+                                          </div>      
+                                      </div>
+                                      <hr />
+                                   <!--Refunds searchnull-->
+                                  <asp:Panel runat="server" ID="refunds_searchnull" >
+                                           <div align="center">
+                                              <img src="images/no-results.png" alt="image not found" style="width:200px; height:auto;" />
+                                              <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1" id="refunds_searchnullText" runat="server"></p>
+                                          </div>
+                                      </asp:Panel>
+                                  <!--Refunds null-->
+                                  <asp:Panel runat="server" ID="refunds_null">
+                                      <div align="center">
+                                          <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
+                                          <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you've not made any transactions yet...</p>
+                                          <a href="index.aspx#carousel_c70b" target="_self"><input type="button" value="Make an order now!" class="u-btn" /></a>
+                                      </div>
+                                  </asp:Panel>
+                                  <!--Refunds available-->
+                                  <asp:Panel Visible="true" runat="server" ID="refunds_yes">
+                                      <asp:DataList ID="refundsList" RepeatDirection="Vertical" RepeatColumns="1" runat="server" style="width:100%; background-color:transparent">
+                                          <ItemTemplate>
+                                              <div class="container-fluid" style="width:100%;">
+                                                  <div class="row" style="padding:10px 0px; background-color:transparent; width:100%;">
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Refund ID:</b>
+                                                          <asp:Label ID="id" runat="server" Text='<%#Eval("ID")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Amount:</b>
+                                                          <asp:Label ID="amount" runat="server" Text='<%#Eval("Amount")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>Date requested:</b>
+                                                          <asp:Label ID="datePaid" runat="server" Text='<%#Eval("DateRequested")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                      <label>
+                                                          <b>OrderID:</b>
+                                                          <asp:Label ID="Label1" runat="server" Text='<%#Eval("OrderID")%>'></asp:Label>
+                                                      </label>
+                                                      <br />
+                                                  </div>
+                                              </div>
+                                              </div>
+                                              <hr />
+                                          </ItemTemplate>
+                                      </asp:DataList>
+                                  </asp:Panel>
+                              </div>
                           </div>
-                      </asp:Panel>
-                      <asp:Panel Visible="false" runat="server" ID="transaction_yes">
-
-                      </asp:Panel>
+                      </div>
                   </div>
 
                   <!--Notifications-->

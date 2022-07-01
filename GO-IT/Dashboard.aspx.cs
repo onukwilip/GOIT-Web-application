@@ -95,6 +95,11 @@ namespace GO_IT
                 BindFinish();
                 BindCancel();
                 BindCancelExtra();
+                BindGeneral("Revisions", revisionOrderList, revision_null, r_searchnull1, Trevisions1);
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+                BindGeneral("Transactions", transactionsList, transaction_null, t_searchnull, Ttransactions);
+                BindGeneral("Refunds", refundsList, refunds_null, refunds_searchnull, Trefunds);
+                //BindTransaction();
             }
 
             if (this.IsPostBack)
@@ -353,6 +358,96 @@ namespace GO_IT
             con.Close();
         }
 
+        public void BindTransaction()
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = "SELECT * FROM Transactions WHERE ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+
+            Ttransactions.Text = ds.Tables[0].Rows.Count.ToString();
+
+            transactionsList.DataSource = ds;
+            transactionsList.DataBind();
+
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                transaction_null.Visible = false;
+                t_searchnull.Visible = false;
+            }
+
+            else
+            {
+                transaction_null.Visible = true;
+                t_searchnull.Visible = false;
+            }
+
+            con.Close();
+        }
+
+        public void BindGeneral(string table, DataList dlst, Panel _null, Panel _searchnull, Label num)
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = "SELECT * FROM "+table+" WHERE ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+
+            num.Text = ds.Tables[0].Rows.Count.ToString();
+
+            dlst.DataSource = ds;
+            dlst.DataBind();
+
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                _null.Visible = false;
+                _searchnull.Visible = false;
+            }
+
+            else
+            {
+                _null.Visible = true;
+                _searchnull.Visible = false;
+            }
+
+            con.Close();
+        }
+
+        protected void BindExtraGeneral(string table, string id, DataList dlst, string param)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = "SELECT * FROM " + table + " WHERE " + param + "='" + id + "'";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+
+            dlst.DataSource = ds;
+            dlst.DataBind();
+
+            con.Close();
+        }
+
         protected void logout_Click(object sender, EventArgs e)
         {
              HttpCookie id = Request.Cookies["myuser"];
@@ -586,15 +681,115 @@ namespace GO_IT
         {
             g_overlay.Visible = false;
             g_editmodal.Visible = false;
+            restore_container.Style["display"] = "none";
+            revision_order_container.Style["display"] = "none";
+            revision_delete_order_container.Style["display"] = "none";
+            rev_func_container.Style["display"] = "none";
+            rev_func_success_container.Style["display"] = "none";
+            rev_func_del_container.Style["display"] = "none";
+            rev_func_success.Visible = false;
+
+            //Errors
+
+            //Restore function
             func_error_reason.Visible = false;
             func_error_pword.Visible = false;
+            //Revision orders(edit)
+            rev_o_ProjectNameError.Visible = false;
+            rev_o_DateExpectedError.Visible = false;
+            rev_o_DescriptionError.Visible = false;
+            rev_o_FeaturesError.Visible = false;
+            //Revision orders(delete)
+            rev_o_del_pwordError.Visible = false;
+            rev_o_del_reasonError.Visible = false;
+            //Revision function(edit)
+            rev_func_describe_error.Visible = false;
+            //Revision function(delete)
+            rev_func_del_reasonError.Visible = false;
+            rev_func_del_pwordError.Visible = false;
+
+            //Textboxes
+
+            //Restore function
             func_pword.Value = null;
             func_reason.Text = null;
+            //Revision orders(edit)
+            rev_o_DateExpected.Text = null;
+            rev_o_DateOrdered.Text = null;
+            rev_o_Description.Value = null;
+            rev_o_Features.Value = null;
+            rev_o_ID.Value = null;
+            rev_o_ProjectName.Value = null;
+            //Revision orders(delete)
+            rev_o_del_ID.Text = null;
+            rev_o_del_pword.Value = null;
+            rev_o_del_reason.Text = null;
+            //Revision function(delete)
+            rev_func_del_reason.Text = null;
+            rev_func_del_pword.Value = null;
+
+            //Banners
             func_exist.InnerHtml = "Please verify your password before restoring this function, to confirm it is you";
             func_info.Style["background-color"] = "rgba(182, 255, 0, .7)";
             func_exist.Style["color"] = "darkgreen";
         }
 
+        protected void g_cancel()
+        {
+            g_overlay.Visible = false;
+            g_editmodal.Visible = false;
+            restore_container.Style["display"] = "none";
+            revision_order_container.Style["display"] = "none";
+            revision_delete_order_container.Style["display"] = "none";
+            rev_func_container.Style["display"] = "none";
+            rev_func_success_container.Style["display"] = "none";
+            rev_func_del_container.Style["display"] = "none";
+            rev_func_success.Visible = false;
+
+            //Errors
+
+            //Restore function
+            func_error_reason.Visible = false;
+            func_error_pword.Visible = false;
+            //Revision orders(edit)
+            rev_o_ProjectNameError.Visible = false;
+            rev_o_DateExpectedError.Visible = false;
+            rev_o_DescriptionError.Visible = false;
+            rev_o_FeaturesError.Visible = false;
+            //Revision orders(delete)
+            rev_o_del_pwordError.Visible = false;
+            rev_o_del_reasonError.Visible = false;
+            //Revision function(edit)
+            rev_func_describe_error.Visible = false;
+            //Revision function(delete)
+            rev_func_del_reasonError.Visible = false;
+            rev_func_del_pwordError.Visible = false;
+
+            //Textboxes
+
+            //Restore function
+            func_pword.Value = null;
+            func_reason.Text = null;
+            //Revision orders(edit)
+            rev_o_DateExpected.Text = null;
+            rev_o_DateOrdered.Text = null;
+            rev_o_Description.Value = null;
+            rev_o_Features.Value = null;
+            rev_o_ID.Value = null;
+            rev_o_ProjectName.Value = null;
+            //Revision orders(delete)
+            rev_o_del_ID.Text = null;
+            rev_o_del_pword.Value = null;
+            rev_o_del_reason.Text = null;
+            //Revision function(delete)
+            rev_func_del_reason.Text = null;
+            rev_func_del_pword.Value = null;
+
+            //Banners
+            func_exist.InnerHtml = "Please verify your password before restoring this function, to confirm it is you";
+            func_info.Style["background-color"] = "rgba(182, 255, 0, .7)";
+            func_exist.Style["color"] = "darkgreen";
+        }
         /* protected void saveRevision_Click(object sender, EventArgs e)
          {
              string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
@@ -1217,7 +1412,7 @@ namespace GO_IT
                         read2.Close();
 
                         insert1 = " INSERT INTO DeletedOrders(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, DateDeleted) SELECT ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, '" + DateTime.Now + "' FROM Orders WHERE OrderID='" + DelID.Text + "' ";
-                        insert2 = " INSERT INTO Refunds (OrderID, Amount, DateRequested, ClientID, Original, Percentage, ID, status) VALUES('" + DelID.Text + "', " + amount + ", '" + DateTime.Now + "', '" + _user + "', " + o_amount + ", '" + percent + "', '" + _rdm + "', 'pending') ";
+                        insert2 = " INSERT INTO Refunds (OrderID, Amount, DateRequested, ClientID, Original, Percentage, ID, status) VALUES('" + DelID.Text + "', " + amount + ", '" + DateTime.Now.Date + "', '" + _user + "', " + o_amount + ", '" + percent + "', '" + _rdm + "', 'pending') ";
                         insert3 = " INSERT INTO DeletedExtras(Name, Description, ID, OrderID, Price, ClientID) SELECT Name, Description, ID, OrderID, Price, ClientID from OrderExtra WHERE OrderID='" + DelID.Text + "' ";
                         delete1 = " DELETE FROM Orders WHERE OrderID='" + DelID.Text + "' ";
                         delete2 = " DELETE FROM Revisions WHERE OrderID='" + DelID.Text + "' ";
@@ -1517,6 +1712,8 @@ namespace GO_IT
             g_overlay.Visible = true;
             g_editmodal.Visible = true;
             restore_container.Style["display"] = "block";
+            revision_order_container.Style["display"] = "none";
+            revision_delete_order_container.Style["display"] = "none";
 
             DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
             Label funcID = ((Label)dlst.FindControl("funcID"));
@@ -1793,6 +1990,762 @@ namespace GO_IT
         protected void c_go2_Click(object sender, EventArgs e)
         {
             cancel_search2();
+        }
+
+        protected void ViewGeneral(object sender)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+
+        }
+
+        protected void r_view1_Click(object sender, EventArgs e)
+        {
+            DataListItem dlstchild = (sender as LinkButton).NamingContainer as DataListItem;
+            Label _ID = ((Label)dlstchild.FindControl("id"));
+            string _oid = _ID.Text.Split(' ')[1];
+            rev_o_ID.Value = _oid;
+
+            g_overlay.Visible = true;
+            g_editmodal.Visible = true;
+            revision_order_container.Style["display"] = "block";
+            restore_container.Style["display"] = "none";
+            revision_delete_order_container.Style["display"] = "none";
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = "SELECT * FROM Revisions WHERE OrderID='" + _oid + "'";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+            while (read.Read())
+            {
+                rev_o_ProjectName.Value = read.GetValue(3).ToString();
+                rev_o_DateExpected.Text = read.GetValue(13).ToString();
+                rev_o_Description.Value = read.GetValue(4).ToString();
+                rev_o_Features.Value = read.GetValue(5).ToString();
+                rev_o_DateOrdered.Text = Convert.ToDateTime(read.GetValue(8)).ToString();
+            }
+
+            con.Close();
+            //BindExtra(_oid);
+            BindExtraGeneral("RevisionExtra", _oid, rev_o_ExtraFunctionlList, "OrderID");
+        }
+
+        protected void r_delete1_Click(object sender, EventArgs e)
+        {
+            DataListItem dlstchild = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlstchild.FindControl("id"));
+
+            g_overlay.Visible = true;
+            g_editmodal.Visible = true;
+            revision_order_container.Style["display"] = "none";
+            restore_container.Style["display"] = "none";
+            revision_delete_order_container.Style["display"] = "block";
+
+            rev_o_del_ID.Text = id.Text.ToString().Split(' ')[1];
+        }
+
+        protected void rev_o_Save_Click(object sender, EventArgs e)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string Desc = rev_o_Description.Value, Feat = rev_o_Features.Value;
+
+            if (rev_o_ProjectName.Value != null || rev_o_ProjectName.Value != "")
+            {
+                rev_o_ProjectNameError.Visible = false;
+                //rev_o_ProjectNameError.Text = "*This field can not be empty";
+            }
+
+            if (Desc.Length > 50 || rev_o_Description.Value != "")
+            {
+                rev_o_DescriptionError.Visible = false;
+                //rev_o_DescriptionError.Text = "*This field must be more than 50 characters";
+            }
+
+            if (Feat.Length > 50 || rev_o_Features.Value != "")
+            {
+                rev_o_FeaturesError.Visible = false;
+                //rev_o_FeaturesError.Text = "*This field must be more than 50 characters";
+            }
+
+            if (rev_o_DateExpected.Text != "" || rev_o_DateExpected.Text != null)
+            {
+                rev_o_DateExpectedError.Visible = false;
+                //rev_o_DateExpectedError.Text = "*This field can not be empty";
+            }
+
+            //VALIDATION
+            
+            if (rev_o_ProjectName.Value == null || rev_o_ProjectName.Value == "")
+            {
+                rev_o_ProjectNameError.Visible = true;
+                rev_o_ProjectNameError.Text = "*This field can not be empty";
+            }
+
+            else if (Desc.Length < 50 || rev_o_Description.Value == "")
+            {
+                rev_o_DescriptionError.Visible = true;
+                rev_o_DescriptionError.Text = "*This field must be more than 50 characters";
+            }
+
+            else if (Feat.Length < 50 || rev_o_Features.Value == "")
+            {
+                rev_o_FeaturesError.Visible = true;
+                rev_o_FeaturesError.Text = "*This field must be more than 50 characters";
+            }
+
+            else if (rev_o_DateExpected.Text == "" || rev_o_DateExpected.Text == null)
+            {
+                rev_o_DateExpectedError.Visible = true;
+                rev_o_DateExpectedError.Text = "*This field can not be empty";
+            }
+
+            else if ((Convert.ToDateTime(rev_o_DateExpected.Text) - Convert.ToDateTime(rev_o_DateOrdered.Text)).TotalDays < 7)
+            {
+                rev_o_DateExpectedError.Visible = true;
+                rev_o_DateExpectedError.Text = "*Date must not be less than & days from order date";
+            }
+
+            else if (Convert.ToDateTime(rev_o_DateExpected.Text) < DateTime.Now)
+            {
+                rev_o_DateExpectedError.Visible = true;
+                rev_o_DateExpectedError.Text = "*Date must not be less than today's date";
+            }
+
+            else
+            {
+                string update = "UPDATE Revisions SET ProjectName='" + rev_o_ProjectName.Value + "', DateExpected='" + rev_o_DateExpected.Text + "', Description='" + rev_o_Description.Value + "', Features='" + rev_o_Features.Value + "' WHERE OrderID='" + rev_o_ID.Value + "' ";
+                SqlCommand ucmd = new SqlCommand(update, con);
+                SqlDataAdapter sda = new SqlDataAdapter();
+                sda.UpdateCommand = ucmd;
+                sda.UpdateCommand.ExecuteNonQuery();
+
+                string A1Path, A2Path, A3Path, A1Name, A2Name, A3Name, ext1, ext2, ext3;
+
+                A1Path = rev_o_A1Upload.PostedFile.FileName;
+                A2Path = rev_o_A2Upload.PostedFile.FileName;
+                A3Path = rev_o_A3Upload.PostedFile.FileName;
+
+                A1Name = Path.GetFileName(A1Path);
+                A2Name = Path.GetFileName(A2Path);
+                A3Name = Path.GetFileName(A3Path);
+
+                ext1 = Path.GetExtension(A1Name);
+                ext2 = Path.GetExtension(A2Name);
+                ext3 = Path.GetExtension(A3Name);
+
+                if (ext1 != "")
+                {
+                    byte[] A1Byte;
+                    using (BinaryReader A1br = new BinaryReader(rev_o_A1Upload.PostedFile.InputStream))
+                    {
+                        A1Byte = A1br.ReadBytes(rev_o_A1Upload.PostedFile.ContentLength);
+                    }
+
+                    string _update = "UPDATE Revisions SET Attachment1=@A1, Apath1=@A1path WHERE OrderID='" + rev_o_ID.Value + "' ";
+                    SqlCommand _ucmd = new SqlCommand(_update, con);
+                    _ucmd.Parameters.AddWithValue("@A1", A1Byte);
+                    _ucmd.Parameters.AddWithValue("@A1path", rev_o_A1Upload.PostedFile.FileName.ToString());
+                    SqlDataAdapter _sda = new SqlDataAdapter();
+                    _sda.UpdateCommand = _ucmd;
+                    _sda.UpdateCommand.ExecuteNonQuery();
+                }
+
+                if (ext2 != "")
+                {
+                    byte[] A2Byte;
+                    using (BinaryReader A2br = new BinaryReader(rev_o_A2Upload.PostedFile.InputStream))
+                    {
+                        A2Byte = A2br.ReadBytes(rev_o_A2Upload.PostedFile.ContentLength);
+                    }
+
+                    string _update = "UPDATE Revisions SET Attachment2=@A2, Apath2=@A2path WHERE OrderID='" + rev_o_ID.Value + "' ";
+                    SqlCommand _ucmd = new SqlCommand(_update, con);
+                    _ucmd.Parameters.AddWithValue("@A2", A2Byte);
+                    _ucmd.Parameters.AddWithValue("@A2path", rev_o_A2Upload.PostedFile.FileName.ToString());
+                    SqlDataAdapter _sda = new SqlDataAdapter();
+                    _sda.UpdateCommand = _ucmd;
+                    _sda.UpdateCommand.ExecuteNonQuery();
+                }
+
+                if (ext3 != "")
+                {
+                    byte[] A3Byte;
+                    using (BinaryReader A3br = new BinaryReader(rev_o_A3Upload.PostedFile.InputStream))
+                    {
+                        A3Byte = A3br.ReadBytes(rev_o_A3Upload.PostedFile.ContentLength);
+                    }
+
+                    string _update = "UPDATE Revisions SET Attachment3=@A3, Apath3=@A3path WHERE OrderID='" + rev_o_ID.Value + "' ";
+                    SqlCommand _ucmd = new SqlCommand(_update, con);
+                    _ucmd.Parameters.AddWithValue("@A3", A3Byte);
+                    _ucmd.Parameters.AddWithValue("@A3path", rev_o_A3Upload.PostedFile.FileName.ToString());
+                    SqlDataAdapter _sda = new SqlDataAdapter();
+                    _sda.UpdateCommand = _ucmd;
+                    _sda.UpdateCommand.ExecuteNonQuery();
+                }
+
+                con.Close();
+
+                rev_o_success.Visible = true;
+                rev_o_success_contain.Style["display"] = "block";
+            }
+        }
+
+        protected void rev_o_del_ConfirmDelete_Click(object sender, EventArgs e)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string _user = Request.QueryString["id"], select = "SELECT * FROM Users WHERE UserId='" + _user + "'", delete1, delete2, pword = String.Empty, _reason = rev_o_del_reason.Text;
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.Read())
+            {
+                pword = read.GetValue(2).ToString();
+            }
+
+            read.Close();
+
+            if (_reason.Length > 20)
+            {
+                rev_o_del_reasonError.Visible = false;
+                //rev_o_del_reasonError.Text = "*This field musn't be less than 20 characters...";
+            }
+
+            if (rev_o_del_pword.Value == pword)
+            {
+                rev_o_del_pwordError.Visible = false;
+                //rev_o_del_pwordError.Text = "*Password is incorrect...";
+            }
+
+            //VALIDATION
+
+            if (_reason.Length<20)
+            {
+                rev_o_del_reasonError.Visible = true;
+                rev_o_del_reasonError.Text = "*This field musn't be less than 20 characters...";
+            }
+
+            else if (rev_o_del_pword.Value!=pword)
+            {
+                rev_o_del_pwordError.Visible = true;
+                rev_o_del_pwordError.Text = "*Password is incorrect...";
+            }
+
+            else
+            {
+                delete1 = " DELETE FROM Revisions WHERE OrderID='" + rev_o_del_ID.Text + "' ";
+                delete2 = " DELETE FROM RevisionExtra WHERE OrderID='" + rev_o_del_ID.Text + "' ";
+
+                SqlCommand cmd1, cmd2;
+                cmd1 = new SqlCommand(delete1, con);
+                cmd2 = new SqlCommand(delete2, con);
+
+                SqlDataAdapter sda1 = new SqlDataAdapter(), sda2 = new SqlDataAdapter();
+                sda1.DeleteCommand = cmd1;
+                sda2.DeleteCommand = cmd2;
+
+                sda1.DeleteCommand.ExecuteNonQuery();
+                sda2.DeleteCommand.ExecuteNonQuery();
+
+                Response.Write("<script>alert(\"Revision deleted succesfully...\")</script>");
+
+                g_cancel();
+
+                BindGeneral("Revisions", revisionOrderList, revision_null, r_searchnull1, Trevisions1);
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+            }
+
+            con.Close();           
+        }
+
+        protected void rev_o_funcsave_Click(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("funcID"));
+            TextBox describe = ((TextBox)dlst.FindControl("funcDescribe"));
+            Label error = ((Label)dlst.FindControl("error"));
+            Label funcwarn = ((Label)dlst.FindControl("funcWarn"));
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            if (describe.ToString().Length > 50)
+            {
+                error.Visible = false;
+                //error.Text = "*This field must not be less than 50 characters...";
+            }
+
+            //VALIDATION
+
+            if (describe.Text.ToString().Length<50)
+            {
+                error.Visible = true;
+                error.Text = "*This field must not be less than 50 characters...";
+            }
+
+            else
+            {
+                string update = " UPDATE RevisionExtra SET Description='" + describe.Text + "' WHERE ID='" + id.Text + "' ";
+                SqlCommand cmd = new SqlCommand(update, con);
+                SqlDataAdapter sda = new SqlDataAdapter();
+                sda.UpdateCommand = cmd;
+                sda.UpdateCommand.ExecuteNonQuery();
+
+                BindExtraGeneral("RevisionExtra", rev_o_ID.Value, rev_o_ExtraFunctionlList, "OrderID");
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+                funcwarn.Text = "<li>Function with id " + id.Text + " was successfully updated</li>";
+                //Response.Write("<script>alert(\"Function succesfully updated...\")</script>");
+            }
+
+            con.Close();
+            
+        }
+
+        protected void rev_o_funcdelete_Click(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("funcID"));
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string delete = " DELETE FROM RevisionExtra WHERE ID='" + id.Text + "' ";
+            SqlCommand cmd = new SqlCommand(delete, con);
+            SqlDataAdapter sda = new SqlDataAdapter();
+            sda.DeleteCommand = cmd;
+            sda.DeleteCommand.ExecuteNonQuery();
+
+            con.Close();
+            BindExtraGeneral("RevisionExtra", rev_o_ID.Value, rev_o_ExtraFunctionlList, "OrderID");
+            BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+            Response.Write("<script>alert(\"Function succesfully deleted...\")</script>");
+        }
+
+        protected void rev_func_edit_Click(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("funcID"));
+
+            g_overlay.Visible = true;
+            g_editmodal.Visible = true;
+            rev_func_container.Style["display"] = "block";
+
+            rev_func_id.Text = id.Text;
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM RevisionExtra WHERE ID='" + id.Text + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.Read())
+            {
+                rev_func_name.Text = read.GetValue(0).ToString();
+                rev_func_describe.Value= read.GetValue(1).ToString();
+            }
+
+            con.Close();
+        }
+
+        protected void rev_func_delete_Click(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("funcID"));
+
+            g_overlay.Visible = true;
+            g_editmodal.Visible = true;
+            rev_func_del_container.Style["display"] = "block";
+
+            rev_func_del_ID.Text = id.Text;
+        }
+
+        protected void rev_func_save_Click(object sender, EventArgs e)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            if (rev_func_describe.Value.ToString().Length > 50)
+            {
+                rev_func_describe_error.Visible = false;
+                //error.Text = "*This field must not be less than 50 characters...";
+            }
+
+            //VALIDATION
+
+            if (rev_func_describe.Value.ToString().Length < 50)
+            {
+                rev_func_describe_error.Visible = true;
+                rev_func_describe_error.Text = "*This field must not be less than 50 characters...";
+            }
+
+            else
+            {
+                string update = " UPDATE RevisionExtra SET Description='" + rev_func_describe.Value + "' WHERE ID='" + rev_func_id.Text + "' ";
+                SqlCommand cmd = new SqlCommand(update, con);
+                SqlDataAdapter sda = new SqlDataAdapter();
+                sda.UpdateCommand = cmd;
+                sda.UpdateCommand.ExecuteNonQuery();
+
+                BindExtraGeneral("RevisionExtra", rev_o_ID.Value, rev_o_ExtraFunctionlList, "OrderID");
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+
+                rev_func_success_container.Style["display"] = "block";
+                rev_func_success.Visible = true;
+                //Response.Write("<script>alert(\"Function succesfully updated...\")</script>");
+            }
+
+            con.Close();
+        }
+
+        protected void rev_func_confirmDelete_Click(object sender, EventArgs e)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string _user = Request.QueryString["id"], select = "SELECT * FROM Users WHERE UserId='" + _user + "'", pword = String.Empty, _reason = rev_func_del_reason.Text;
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.Read())
+            {
+                pword = read.GetValue(2).ToString();
+            }
+
+            read.Close();
+
+            if (_reason.Length > 20)
+            {
+                rev_func_del_reasonError.Visible = false;
+            }
+
+            if (rev_func_del_pword.Value == pword)
+            {
+                rev_func_del_pwordError.Visible = false;
+            }
+
+            //VALIDATION
+
+            if (_reason.Length<20)
+            {
+                rev_func_del_reasonError.Visible = true;
+            }
+
+            else if (rev_func_del_pword.Value!=pword)
+            {
+                rev_func_del_pwordError.Visible = true;
+            }
+
+            else
+            {
+                 string delete = " DELETE FROM RevisionExtra WHERE ID='" + rev_func_del_ID.Text + "' ";
+                 SqlCommand cmd1 = new SqlCommand(delete, con);
+                 SqlDataAdapter sda = new SqlDataAdapter();
+                 sda.DeleteCommand = cmd1;
+                 sda.DeleteCommand.ExecuteNonQuery();
+
+                 con.Close();
+                 BindExtraGeneral("RevisionExtra", rev_o_ID.Value, rev_o_ExtraFunctionlList, "OrderID");
+                 BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+                 Response.Write("<script>alert(\"Function succesfully deleted...\")</script>");
+                 g_cancel(); 
+            }
+
+            con.Close();
+        }
+
+        protected void rev_search()
+        {
+            if (r_search1.Text == null || r_search1.Text == "")
+            {
+                revision_null.Visible = false;
+                revision_yes.Visible = true;
+                r_searchnull1.Visible = false;
+                BindGeneral("Revisions", revisionOrderList, revision_null, r_searchnull1, Trevisions1);
+            }
+
+            else
+            {
+                string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+                SqlConnection con = new SqlConnection(constring);
+                con.Open();
+
+                string id = Request.QueryString["id"], select = String.Empty;
+
+                if (r_searchby1.Value == "orderid")
+                {
+                    select = "  SELECT * FROM Revisions WHERE ClientID='" + id + "' AND OrderID LIKE '%" + r_search1.Text + "%' ";
+                }
+
+                else if (r_searchby1.Value == "servicename")
+                {
+                    select = "  SELECT * FROM Revisions WHERE ClientID='" + id + "' AND ServiceName LIKE '%" + r_search1.Text + "%' ";
+                }
+
+                else if (r_searchby1.Value == "projectname")
+                {
+                    select = "  SELECT * FROM Revisions WHERE ClientID='" + id + "' AND ProjectName LIKE '%" + r_search1.Text + "%' ";
+                }
+
+                SqlCommand cmd = new SqlCommand(select, con);
+
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+
+                revisionOrderList.DataSource = ds;
+                revisionOrderList.DataBind();
+
+                SqlDataReader read = cmd.ExecuteReader();
+
+                if (read.HasRows)
+                {
+                    revision_null.Visible = false;
+                    r_searchnull1.Visible = false;
+                    revision_yes.Visible = true;
+                    //read.Close();                    
+                }
+
+                else
+                {
+                    revision_null.Visible = false;
+                    r_searchnull1.Visible = true;
+                    r_searchtext1.InnerHtml = "Sorry, but the item '" + r_search1.Text + "' was not found amongst your revisions";
+                    revision_yes.Visible = false;
+                }
+
+                con.Close();
+            }
+        }
+
+        protected void rev_search2()
+        {
+            if (r_search2.Text == null || r_search2.Text == "")
+            {
+                revision_null2.Visible = false;
+                revision_yes2.Visible = true;
+                r_searchnull2.Visible = false;
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+            }
+
+            else
+            {
+                string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+                SqlConnection con = new SqlConnection(constring);
+                con.Open();
+
+                string id = Request.QueryString["id"], select = String.Empty;
+
+                if (r_searchby2.Value == "orderid")
+                {
+                    select = "  SELECT * FROM RevisionExtra WHERE ClientID='" + id + "' AND OrderID LIKE '%" + r_search2.Text + "%' ";
+                }
+
+                else if (r_searchby2.Value == "funcid")
+                {
+                    select = "  SELECT * FROM RevisionExtra WHERE ClientID='" + id + "' AND ID LIKE '%" + r_search2.Text + "%' ";
+                }
+
+                SqlCommand cmd = new SqlCommand(select, con);
+
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+
+                revisionFunctionList.DataSource = ds;
+                revisionFunctionList.DataBind();
+
+                SqlDataReader read = cmd.ExecuteReader();
+
+                if (read.HasRows)
+                {
+                    revision_null2.Visible = false;
+                    r_searchnull2.Visible = false;
+                    revision_yes2.Visible = true;
+                    //read.Close();                    
+                }
+
+                else
+                {
+                    revision_null2.Visible = false;
+                    r_searchnull2.Visible = true;
+                    r_searchtext2.InnerHtml = "Sorry, but the item '" + r_search2.Text + "' was not found amongst your functions";
+                    revision_yes2.Visible = false;
+                }
+
+                con.Close();
+            }
+        }
+
+        protected void transaction_search()
+        {
+            if (t_search.Text == null || t_search.Text == "")
+            {
+                transaction_null.Visible = false;
+                transaction_yes.Visible = true;
+                t_searchnull.Visible = false;
+                BindGeneral("Transactions", transactionsList, transaction_null, t_searchnull, Ttransactions);
+            }
+
+            else
+            {
+                string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+                SqlConnection con = new SqlConnection(constring);
+                con.Open();
+
+                string id = Request.QueryString["id"], select = String.Empty;
+
+                if (t_searchby.Value == "orderid")
+                {
+                    select = "  SELECT * FROM Transactions WHERE ClientID='" + id + "' AND OrderID LIKE '%" + t_search.Text + "%' ";
+                }
+
+                else if (t_searchby.Value == "transactionID")
+                {
+                    select = "  SELECT * FROM Transactions WHERE ClientID='" + id + "' AND TransactionID LIKE '%" + t_search.Text + "%' ";
+                }
+
+                SqlCommand cmd = new SqlCommand(select, con);
+
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+
+                transactionsList.DataSource = ds;
+                transactionsList.DataBind();
+
+                SqlDataReader read = cmd.ExecuteReader();
+
+                if (read.HasRows)
+                {
+                    transaction_null.Visible = false;
+                    t_searchnull.Visible = false;
+                    transaction_yes.Visible = true;
+                    //read.Close();                    
+                }
+
+                else
+                {
+                    transaction_null.Visible = false;
+                    t_searchnull.Visible = true;
+                    t_searchnulltext.InnerHtml = "Sorry, but the item '" + t_search.Text + "' was not found amongst your transactions";
+                    transaction_yes.Visible = false;
+                }
+
+                con.Close();
+            }
+        }
+
+        protected void my_refunds_search()
+        {
+            if (refunds_search.Text == null || refunds_search.Text == "")
+            {
+                refunds_null.Visible = false;
+                refunds_yes.Visible = true;
+                refunds_searchnull.Visible = false;
+                BindGeneral("Refunds", refundsList, refunds_null, refunds_searchnull, Trefunds);
+            }
+
+            else
+            {
+                string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+                SqlConnection con = new SqlConnection(constring);
+                con.Open();
+
+                string id = Request.QueryString["id"], select = String.Empty;
+
+                if (refunds_searchby.Value == "orderid")
+                {
+                    select = "  SELECT * FROM Refunds WHERE ClientID='" + id + "' AND OrderID LIKE '%" + refunds_search.Text + "%' ";
+                }
+
+                else if (refunds_searchby.Value == "refundID")
+                {
+                    select = "  SELECT * FROM Refunds WHERE ClientID='" + id + "' AND ID LIKE '%" + refunds_search.Text + "%' ";
+                }
+
+                SqlCommand cmd = new SqlCommand(select, con);
+
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+
+                refundsList.DataSource = ds;
+                refundsList.DataBind();
+
+                SqlDataReader read = cmd.ExecuteReader();
+
+                if (read.HasRows)
+                {
+                    refunds_null.Visible = false;
+                    refunds_searchnull.Visible = false;
+                    refunds_yes.Visible = true;
+                    //read.Close();                    
+                }
+
+                else
+                {
+                    refunds_null.Visible = false;
+                    refunds_searchnull.Visible = true;
+                    refunds_searchnullText.InnerHtml = "Sorry, but the item '" + refunds_search.Text + "' was not found amongst your pending refunds";
+                    refunds_yes.Visible = false;
+                }
+
+                con.Close();
+            }
+        }
+
+        protected void r_search1_TextChanged(object sender, EventArgs e)
+        {
+            rev_search();
+        }
+
+        protected void r_go1_Click(object sender, EventArgs e)
+        {
+            rev_search();
+        }
+
+        protected void r_search2_TextChanged(object sender, EventArgs e)
+        {
+            rev_search2();
+        }
+
+        protected void r_go2_Click(object sender, EventArgs e)
+        {
+            rev_search2();
+        }
+
+        protected void t_search_TextChanged(object sender, EventArgs e)
+        {
+            transaction_search();
+        }
+
+        protected void t_go_Click(object sender, EventArgs e)
+        {
+            transaction_search();
+        }
+
+        protected void refunds_search_TextChanged(object sender, EventArgs e)
+        {
+            my_refunds_search();
+        }
+
+        protected void refunds_go_Click(object sender, EventArgs e)
+        {
+            my_refunds_search();
         }
     }
 }
