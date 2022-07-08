@@ -40,6 +40,60 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
         
         /// <summary>
+        /// open_order_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label open_order_badge;
+        
+        /// <summary>
+        /// closed_order_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label closed_order_badge;
+        
+        /// <summary>
+        /// deleted_order_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label deleted_order_badge;
+        
+        /// <summary>
+        /// revision_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label revision_badge;
+        
+        /// <summary>
+        /// transaction_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label transaction_badge;
+        
+        /// <summary>
+        /// notify_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label notify_badge;
+        
+        /// <summary>
         /// overlay2 control.
         /// </summary>
         /// <remarks>
@@ -172,7 +226,7 @@ namespace GO_IT {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl A1;
+        protected global::System.Web.UI.WebControls.LinkButton A1;
         
         /// <summary>
         /// A1Upload control.
@@ -184,13 +238,22 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload A1Upload;
         
         /// <summary>
+        /// A1Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label A1Error;
+        
+        /// <summary>
         /// A2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl A2;
+        protected global::System.Web.UI.WebControls.LinkButton A2;
         
         /// <summary>
         /// A2Upload control.
@@ -202,13 +265,22 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload A2Upload;
         
         /// <summary>
+        /// A2Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label A2Error;
+        
+        /// <summary>
         /// A3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl A3;
+        protected global::System.Web.UI.WebControls.LinkButton A3;
         
         /// <summary>
         /// A3Upload control.
@@ -218,6 +290,42 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload A3Upload;
+        
+        /// <summary>
+        /// A3Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label A3Error;
+        
+        /// <summary>
+        /// zipfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton zipfile;
+        
+        /// <summary>
+        /// zipUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload zipUpload;
+        
+        /// <summary>
+        /// zipError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label zipError;
         
         /// <summary>
         /// extralist control.
@@ -721,7 +829,7 @@ namespace GO_IT {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rev_o_A1;
+        protected global::System.Web.UI.WebControls.LinkButton rev_o_A1;
         
         /// <summary>
         /// rev_o_A1Upload control.
@@ -733,13 +841,22 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload rev_o_A1Upload;
         
         /// <summary>
+        /// rev_o_A1Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label rev_o_A1Error;
+        
+        /// <summary>
         /// rev_o_A2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rev_o_A2;
+        protected global::System.Web.UI.WebControls.LinkButton rev_o_A2;
         
         /// <summary>
         /// rev_o_A2Upload control.
@@ -751,13 +868,22 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload rev_o_A2Upload;
         
         /// <summary>
+        /// rev_o_A2Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label rev_o_A2Error;
+        
+        /// <summary>
         /// rev_o_A3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rev_o_A3;
+        protected global::System.Web.UI.WebControls.LinkButton rev_o_A3;
         
         /// <summary>
         /// rev_o_A3Upload control.
@@ -767,6 +893,42 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload rev_o_A3Upload;
+        
+        /// <summary>
+        /// rev_o_A3Error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label rev_o_A3Error;
+        
+        /// <summary>
+        /// rev_o_zipfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton rev_o_zipfile;
+        
+        /// <summary>
+        /// rev_o_zipUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload rev_o_zipUpload;
+        
+        /// <summary>
+        /// rev_o_zipError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label rev_o_zipError;
         
         /// <summary>
         /// rev_o_ExtraFunctionlList control.
@@ -1048,6 +1210,15 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart;
         
         /// <summary>
+        /// cart_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge;
+        
+        /// <summary>
         /// login2 control.
         /// </summary>
         /// <remarks>
@@ -1084,6 +1255,15 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart2;
         
         /// <summary>
+        /// cart_badge2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge2;
+        
+        /// <summary>
         /// change control.
         /// </summary>
         /// <remarks>
@@ -1091,6 +1271,69 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText change;
+        
+        /// <summary>
+        /// submenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl submenu;
+        
+        /// <summary>
+        /// new_order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_order;
+        
+        /// <summary>
+        /// new_finish control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_finish;
+        
+        /// <summary>
+        /// new_cancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_cancel;
+        
+        /// <summary>
+        /// new_revision control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_revision;
+        
+        /// <summary>
+        /// new_transaction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_transaction;
+        
+        /// <summary>
+        /// new_notify control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_notify;
         
         /// <summary>
         /// logout control.
@@ -1453,6 +1696,24 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl cancelled;
         
         /// <summary>
+        /// new_del_order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_del_order;
+        
+        /// <summary>
+        /// new_del_function control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_del_function;
+        
+        /// <summary>
         /// TCanclled control.
         /// </summary>
         /// <remarks>
@@ -1622,6 +1883,24 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl revisions;
+        
+        /// <summary>
+        /// new_rev_order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_rev_order;
+        
+        /// <summary>
+        /// new_rev_function control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_rev_function;
         
         /// <summary>
         /// Trevisions1 control.
@@ -1795,6 +2074,24 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl transactions;
         
         /// <summary>
+        /// new_transactions2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_transactions2;
+        
+        /// <summary>
+        /// new_refunds control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label new_refunds;
+        
+        /// <summary>
         /// Ttransactions control.
         /// </summary>
         /// <remarks>
@@ -1966,22 +2263,49 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl notifications;
         
         /// <summary>
-        /// Panel1 control.
+        /// n_searchnull control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.Panel n_searchnull;
         
         /// <summary>
-        /// Panel2 control.
+        /// Tnotify control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel2;
+        protected global::System.Web.UI.WebControls.Label Tnotify;
+        
+        /// <summary>
+        /// notifications_null control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel notifications_null;
+        
+        /// <summary>
+        /// notifications_yes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel notifications_yes;
+        
+        /// <summary>
+        /// notificationsList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList notificationsList;
         
         /// <summary>
         /// details control.

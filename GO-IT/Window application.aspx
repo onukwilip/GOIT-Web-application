@@ -311,7 +311,9 @@
                                           </li>
                                       </asp:Panel>
                                       <li class="u-nav-item">
-                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="Register.aspx"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="Register.aspx"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge" CssClass="cart-badge"></asp:Label></sup>
+                                            </a>
                                       </li>
                                   </ul>
                               </div>
@@ -379,7 +381,9 @@
                                               </asp:Panel>
 
                                               <li class="u-nav-item">
-                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                      Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge2" CssClass="cart-badge"></asp:Label></sup>
+                                                  </a>
                                               </li>
                                           </ul>
                                       </div>
@@ -561,7 +565,7 @@ responsiveSlider();
                             <input type="text" placeholder="E.g goit.com..." id="domain" runat="server" /> <asp:Label Visible="false" runat="server" ID="errorDomain" CssClass="error" />
                         </label><br /> -->
                         <label>Number of forms:<br />
-                            <input type="number" min="1" value="10" id="pages" runat="server" /> <asp:Label Visible="false" runat="server" ID="errorPages" CssClass="error" />
+                            <input type="number" min="1" value="" id="pages" runat="server" /> <asp:Label Visible="false" runat="server" ID="errorPages" CssClass="error" />
                         </label><br />
                         <label>Date to be delivered:<br />
                             <input type="date" id="date" runat="server" /> <asp:Label Visible="false" runat="server" ID="errorDate" CssClass="error" />
@@ -579,12 +583,19 @@ responsiveSlider();
                         
                         <label>
                             Attachment1: <asp:FileUpload ID="attach1" runat="server" />
+                             <asp:Label ID="a1error" CssClass="error" runat="server" Text="*File must not be more than 5mb..." Visible="false"></asp:Label>
                         </label><br />
                         <label>
                             Attachment2: <asp:FileUpload ID="attach2" runat="server" />
+                             <asp:Label ID="a2error" CssClass="error" runat="server" Text="*File must not be more than 5mb..." Visible="false"></asp:Label>
                         </label><br />
                         <label>
                             Attachment3: <asp:FileUpload ID="attach3" runat="server" />
+                             <asp:Label ID="a3error" CssClass="error" runat="server" Text="*File must not be more than 5mb..." Visible="false"></asp:Label>
+                        </label>
+                         <label>
+                            Upload any file/folder in .zip format only, or any existing project you want us to work with e.g Themes, templates, etc... <asp:FileUpload ID="zipfile" runat="server" />
+                            <asp:Label ID="errorZip" CssClass="error" runat="server" Text="*File must be in zip format only..." Visible="false"></asp:Label>
                         </label>
                     </div>
                 </section>

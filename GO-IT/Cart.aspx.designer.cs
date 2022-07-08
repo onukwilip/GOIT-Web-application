@@ -130,6 +130,15 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart;
         
         /// <summary>
+        /// cart_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge;
+        
+        /// <summary>
         /// login2 control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,15 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart2;
+        
+        /// <summary>
+        /// cart_badge2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge2;
         
         /// <summary>
         /// empty control.

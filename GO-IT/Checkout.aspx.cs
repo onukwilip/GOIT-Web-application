@@ -16,7 +16,7 @@ namespace GO_IT
         {
             HttpCookie _ID = Request.Cookies["myuser"];
 
-            string User = _ID != null ? _ID.Value.Split('=')[1] : "undefined";
+            string User = _ID != null ? _ID.Value.Split('=')[1] : "undefined", code2 = String.Empty;
 
             string id = Request.QueryString["id"];
             string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
@@ -33,6 +33,7 @@ namespace GO_IT
                 {
                     string uname = read.GetValue(1).ToString();
                     string code = read.GetValue(0).ToString();
+                    code2= read.GetValue(0).ToString();
                     login.Visible = false;
                     user.Visible = true;
                     name.InnerHtml = String.Concat("<i class=\"fa-solid fa-user-check\"></i>", " ", " Hey!..." + uname.Split(' ')[0] + "");
@@ -65,6 +66,10 @@ namespace GO_IT
             DataTable dt = new DataTable();
             sda.Fill(dt);
             total.Value = dt.Compute("SUM(TotalAmount)", string.Empty).ToString();
+
+            GeneralClass general = new GeneralClass();
+            general.SubBadge("Cart", cart_badge, code2);
+            general.SubBadge("Cart", cart_badge2, code2);
         }
 
         protected void pay_Click(object sender, EventArgs e)
@@ -146,7 +151,7 @@ namespace GO_IT
 
                 else
                 {
-                    string insert = "INSERT INTO Orders(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, OrderType) SELECT ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, 'Open' FROM Cart WHERE ClientID='" + id + "'";
+                    string insert = "INSERT INTO Orders(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, OrderType, Badge, Apath1, Apath2, Apath3, ZipFileName, ZipFilePath) SELECT ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, 'Open', 'New', Apath1, Apath2, Apath3, ZipFileName, ZipFilePath FROM Cart WHERE ClientID='" + id + "'";
                     SqlCommand icmd = new SqlCommand(insert, con);
                     SqlDataAdapter sda = new SqlDataAdapter();
                     sda.InsertCommand = icmd;
@@ -157,6 +162,14 @@ namespace GO_IT
                     SqlDataAdapter sda2 = new SqlDataAdapter();
                     sda2.InsertCommand = icmd2;
                     sda2.InsertCommand.ExecuteNonQuery();
+
+                    string _rdm = new GeneralClass()._random().ToString();
+
+                     string insert3 = " INSERT INTO Transactions(OrderID, DatePaid, TotalAmount, AmountPaid, AmountRemain, Description, ClientID, Badge) SELECT OrderID, '" + DateTime.Now.Date.ToShortDateString() + "', TotalAmount, TotalAmount, 0, 'This is an order', ClientID, 'New' FROM Cart WHERE ClientID='" + id + "' ";
+                     SqlCommand icmd3 = new SqlCommand(insert3, con);
+                     SqlDataAdapter sda3 = new SqlDataAdapter();
+                     sda3.InsertCommand = icmd3;
+                     sda3.InsertCommand.ExecuteNonQuery(); 
 
                     string delete = "DELETE FROM Cart WHERE ClientID='" + id + "'";
                     string delete2 = "DELETE FROM CartExtra WHERE ClientID='" + id + "'";

@@ -1,4 +1,10 @@
-﻿
+﻿ .cart-badge
+{
+   padding:4px; 
+   font-size:14px; 
+   color:blue;
+}        
+                
         #slider {
             position: relative;
             width: 100%;

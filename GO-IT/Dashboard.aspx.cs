@@ -17,7 +17,7 @@ namespace GO_IT
         protected void Page_Load(object sender, EventArgs e)
         {
             HttpCookie id = Request.Cookies["myuser"];
-            string MyUser = id != null ? id.Value.Split('=')[1] : "undefined";
+            string MyUser = id != null ? id.Value.Split('=')[1] : "undefined", code2 = String.Empty;
             string _user = Request.QueryString["id"];
 
             string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
@@ -37,6 +37,7 @@ namespace GO_IT
                 {
                     string uname = read0.GetValue(1).ToString();
                     string code = read0.GetValue(0).ToString();
+                    code2 = read0.GetValue(0).ToString();
                     login.Visible = false;
                     user.Visible = true;
                     name.InnerHtml = String.Concat("<i class=\"fa-solid fa-user-check\"></i>", " ", " Hey!..." + uname.Split(' ')[0] + "");
@@ -60,7 +61,7 @@ namespace GO_IT
                 user2.Visible = false;
                 cart.HRef = "Register.aspx";
                 cart2.HRef = "Register.aspx";
-                Response.Write("<script>alert(\"I do not exist '"+MyUser+"'\")</script>");
+                Response.Redirect("Register.aspx");
             }
 
             read0.Close();
@@ -99,7 +100,29 @@ namespace GO_IT
                 BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
                 BindGeneral("Transactions", transactionsList, transaction_null, t_searchnull, Ttransactions);
                 BindGeneral("Refunds", refundsList, refunds_null, refunds_searchnull, Trefunds);
-                //BindTransaction();
+                BindGeneral("Notifications", notificationsList, notifications_null, n_searchnull, Tnotify);
+                //New Badges
+                //Menu
+                OrderBadge("Orders", "Open", new_order);
+                OrderBadge("Orders", "closed", new_finish);
+                MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+                MainBadge("Revisions", "RevisionExtra", new_revision);
+                MainBadge("Transactions", "Refunds", new_transaction);
+                SubBadge("Notifications", new_notify);
+                //SubMenu
+                OrderBadge("Orders", "Open", open_order_badge);
+                OrderBadge("Orders", "closed", closed_order_badge);
+                MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+                MainBadge("Revisions", "RevisionExtra", revision_badge);
+                MainBadge("Transactions", "Refunds", transaction_badge);
+                SubBadge("Notifications", notify_badge);
+                //Tabs
+                SubBadge("DeletedOrders", new_del_order);
+                SubBadge("DeletedExtras", new_del_function);
+                SubBadge("Revisions", new_rev_order);
+                SubBadge("RevisionExtra", new_rev_function);
+                SubBadge("Transactions", new_transactions2);
+                SubBadge("Refunds", new_refunds);
             }
 
             if (this.IsPostBack)
@@ -207,8 +230,170 @@ namespace GO_IT
                     transactions.Style["display"] = "block";
                     // Response.Write("<script>alert(\"" + change.Value + "\")</script>");
                 }
+
+                Bind();
+                BindFinish();
+                BindCancel();
+                BindCancelExtra();
+                BindGeneral("Revisions", revisionOrderList, revision_null, r_searchnull1, Trevisions1);
+                BindGeneral("RevisionExtra", revisionFunctionList, revision_null2, r_searchnull2, Trevisions2);
+                BindGeneral("Transactions", transactionsList, transaction_null, t_searchnull, Ttransactions);
+                BindGeneral("Refunds", refundsList, refunds_null, refunds_searchnull, Trefunds);
+                BindGeneral("Notifications", notificationsList, notifications_null, n_searchnull, Tnotify);
+                //New Badges
+                //Menu
+                OrderBadge("Orders", "Open", new_order);
+                OrderBadge("Orders", "closed", new_finish);
+                MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+                MainBadge("Revisions", "RevisionExtra", new_revision);
+                MainBadge("Transactions", "Refunds", new_transaction);
+                SubBadge("Notifications", new_notify);
+                //SubMenu
+                OrderBadge("Orders", "Open", open_order_badge);
+                OrderBadge("Orders", "closed", closed_order_badge);
+                MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+                MainBadge("Revisions", "RevisionExtra", revision_badge);
+                MainBadge("Transactions", "Refunds", transaction_badge);
+                SubBadge("Notifications", notify_badge);
+                //Tabs
+                SubBadge("DeletedOrders", new_del_order);
+                SubBadge("DeletedExtras", new_del_function);
+                SubBadge("Revisions", new_rev_order);
+                SubBadge("RevisionExtra", new_rev_function);
+                SubBadge("Transactions", new_transactions2);
+                SubBadge("Refunds", new_refunds);
             }
-            //profile1.Style["height"] = profile2.Style["height"];
+
+            GeneralClass general = new GeneralClass();
+            general.SubBadge("Cart", cart_badge, code2);
+            general.SubBadge("Cart", cart_badge2, code2);
+        }
+
+        protected void OrderBadge(string table, string condition, Label num)
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM " + table + " WHERE OrderType='" + condition + "' AND Badge='New' AND ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                read.Close();
+                num.Visible = true;
+                num.Text = ds.Tables[0].Rows.Count.ToString();
+            }
+
+            else
+            {
+                num.Visible = false;
+            }   
+        }
+
+        protected void SubBadge(string table, Label num)
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM " + table + " WHERE Badge='New' AND ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                read.Close();
+                num.Visible = true;
+                num.Text = ds.Tables[0].Rows.Count.ToString();
+            }
+
+            else
+            {
+                num.Visible = false;
+            }
+        }
+
+        protected void MainBadge(string table1, string table2, Label num)
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select1 = " SELECT * FROM " + table1 + " WHERE ClientID='" + id + "' AND Badge='New' ";
+            string select2 = " SELECT * FROM " + table2 + " WHERE ClientID='" + id + "' AND Badge='New' ";
+
+            SqlCommand cmd = new SqlCommand(select1, con), cmd2 = new SqlCommand(select2, con);
+            SqlDataAdapter sda1 = new SqlDataAdapter(cmd), sda2 = new SqlDataAdapter(cmd2);
+            DataSet ds1 = new DataSet(), ds2 = new DataSet();
+            sda1.Fill(ds1);
+            sda2.Fill(ds2);
+
+            SqlDataReader r1 = cmd.ExecuteReader(), r2;
+            string r1_check = String.Empty, r2_check = String.Empty;
+
+            if (!r1.HasRows)
+            {
+                r1_check = "false";
+            }
+
+            else
+            {
+                r1_check = "true";
+            }
+
+            r1.Close();
+            r2 = cmd2.ExecuteReader();
+
+            if (!r2.HasRows)
+            {
+                r2_check = "false";
+            }
+
+            else
+            {
+                r2_check = "true";
+            }
+
+            if (r1_check=="false" && r2_check== "false")
+            {
+                num.Visible = false;
+            }
+            
+            else
+            {
+                int total = Convert.ToInt32(ds1.Tables[0].Rows.Count) + Convert.ToInt32(ds2.Tables[0].Rows.Count);
+                num.Visible = true;
+                num.Text = total.ToString();
+            }            
+        }
+
+        protected void update_badge(string table, string column, string _id)
+        {
+            string id = Request.QueryString["id"];
+
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string update = " UPDATE " + table + " SET Badge='' WHERE " + column + "='" + _id + "' AND ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(update, con);
+            SqlDataAdapter sda = new SqlDataAdapter();
+            sda.UpdateCommand = cmd;
+            sda.UpdateCommand.ExecuteNonQuery();
         }
 
         public void Bind()
@@ -219,7 +404,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string select = "SELECT * FROM Orders WHERE ClientID='" + id + "' AND OrderType='Open' ";
+            string select = "SELECT * FROM Orders WHERE ClientID='" + id + "' AND OrderType='Open' ORDER BY DateOrdered ";
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -256,7 +441,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string select = "SELECT * FROM Orders WHERE ClientID='" + id + "' AND OrderType='closed' ";
+            string select = "SELECT * FROM Orders WHERE ClientID='" + id + "' AND OrderType='closed' ORDER BY DateOrdered ";
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -293,7 +478,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string select = "SELECT * FROM DeletedOrders WHERE ClientID='" + id + "' ";
+            string select = "SELECT * FROM DeletedOrders WHERE ClientID='" + id + "' ORDER BY DateDeleted ";
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -402,7 +587,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string select = "SELECT * FROM "+table+" WHERE ClientID='" + id + "' ";
+            string select = "SELECT * FROM " + table + " WHERE ClientID='" + id + "' ";
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -594,10 +779,15 @@ namespace GO_IT
                 description.Value = read.GetValue(4).ToString();
                 features.Value = read.GetValue(5).ToString();
                 o_Date.Text = Convert.ToDateTime(read.GetValue(8).ToString()).ToString();
+                A1.Text= read.GetValue(17).ToString();
+                A2.Text = read.GetValue(18).ToString();
+                A3.Text = read.GetValue(19).ToString();
             }
 
             con.Close();
             BindExtra(_oid);
+
+            update_badge("Orders", "OrderID", _oid);
         }
 
         protected void BindExtra(string id)
@@ -665,6 +855,10 @@ namespace GO_IT
             errorDate.Visible = false;
             errorDesc.Visible = false;
             errorFeature.Visible = false;
+            A1Error.Visible = false;
+            A2Error.Visible = false;
+            A3Error.Visible = false;
+            zipError.Visible = false;
         }
 
         protected void cancel2(object sender, EventArgs e)
@@ -756,6 +950,10 @@ namespace GO_IT
             rev_o_DateExpectedError.Visible = false;
             rev_o_DescriptionError.Visible = false;
             rev_o_FeaturesError.Visible = false;
+            rev_o_A1Error.Visible = false;
+            rev_o_A2Error.Visible = false;
+            rev_o_A3Error.Visible = false;
+            rev_o_zipError.Visible = false;
             //Revision orders(delete)
             rev_o_del_pwordError.Visible = false;
             rev_o_del_reasonError.Visible = false;
@@ -1057,7 +1255,11 @@ namespace GO_IT
             con.Open();
 
             string uid = Request.QueryString["id"];
-            string Desc = description.Value, Feat = features.Value;
+            string Desc = description.Value, Feat = features.Value, ext = Path.GetExtension(zipUpload.PostedFile.FileName);
+            decimal a1size = Math.Round(((decimal)A1Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal a2size = Math.Round(((decimal)A2Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal a3size = Math.Round(((decimal)A3Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal zipsize = Math.Round(((decimal)zipUpload.PostedFile.ContentLength / (decimal)1024), 2);
 
             if (projectName.Value != null || projectName.Value != "")
             {
@@ -1082,7 +1284,37 @@ namespace GO_IT
                 errorDate.Visible = false;
                 //errorDate.Text = "*This field can not be empty";
             }
-                       
+
+            if (A1Upload.HasFile && a1size < 5200)
+            {
+                A1Error.Visible = false;
+                A1Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (A2Upload.HasFile && a2size < 5200)
+            {
+                A2Error.Visible = false;
+                A2Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (A3Upload.HasFile && a3size < 5200)
+            {
+                A3Error.Visible = false;
+                A3Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (zipUpload.HasFile && zipsize < 52000)
+            {
+                zipError.Visible = false;
+                zipError.Text = "*File must not be greater than 50MB";
+            }
+
+            if (zipUpload.HasFile && ext == ".zip")
+            {
+                zipError.Visible = false;
+                zipError.Text = "*File must be a zip file";
+            }
+
             string select = "SELECT * FROM Revisions WHERE OrderID='" + ID.Value + "'";
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataReader read = cmd.ExecuteReader();
@@ -1137,6 +1369,36 @@ namespace GO_IT
                     errorDate.Text = "*Date must not be less than today's date";
                 }
 
+                else if (A1Upload.HasFile && a1size > 5200)
+                {
+                    A1Error.Visible = true;
+                    A1Error.Text = "*File must not be greater than 5MB";
+                }
+
+                else if (A2Upload.HasFile && a2size > 5200)
+                {
+                    A2Error.Visible = true;
+                    A2Error.Text = "*File must not be greater than 5MB";
+                }
+
+                else if (A3Upload.HasFile && a3size > 5200)
+                {
+                    A3Error.Visible = true;
+                    A3Error.Text = "*File must not be greater than 5MB";
+                }
+
+                else if (zipUpload.HasFile && zipsize > 52000)
+                {
+                    zipError.Visible = true;
+                    zipError.Text = "*File must not be greater than 50MB";
+                }
+
+                else if (zipUpload.HasFile && ext != ".zip")
+                {
+                    zipError.Visible = true;
+                    zipError.Text = "*File must be a zip file";
+                }
+
                 else
                 {
                     GeneralClass general = new GeneralClass();
@@ -1161,15 +1423,23 @@ namespace GO_IT
                         A3Byte = A3br.ReadBytes(A3Upload.PostedFile.ContentLength);
                     }
 
-                    string insert = " INSERT INTO Revisions(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, OrderType, Apath1, Apath2, Apath3, RevisionID) SELECT ServiceID, ServiceName, ServiceAmount, '" + projectName.Value + "', '" + description.Value + "', '" + features.Value + "', ClientID, '" + ID.Value + "', DateOrdered, @A1, @A2, @A3, image, '" + date.Text + "', Quantity, TotalAmount, OrderType, @A1path, @A2path, @A2path, '" + _rdm.ToString() + "' FROM Orders WHERE OrderID='" + ID.Value + "' ";
+                    byte[] zipbyte;
+                    using (BinaryReader zipbr = new BinaryReader(zipUpload.PostedFile.InputStream))
+                    {
+                        zipbyte = zipbr.ReadBytes(zipUpload.PostedFile.ContentLength);
+                    }
+
+                    string insert = " INSERT INTO Revisions(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, image, DateExpected, Quantity, TotalAmount, OrderType, Apath1, Apath2, Apath3, RevisionID, Badge, ZipFileName, ZipFilePath) SELECT ServiceID, ServiceName, ServiceAmount, '" + projectName.Value + "', '" + description.Value + "', '" + features.Value + "', ClientID, '" + ID.Value + "', DateOrdered, @A1, @A2, @A3, image, '" + date.Text + "', Quantity, TotalAmount, OrderType, @A1path, @A2path, @A2path, '" + _rdm.ToString() + "', 'New', @zipname, @zippath FROM Orders WHERE OrderID='" + ID.Value + "' ";
 
                     SqlCommand _cmd = new SqlCommand(insert, con);
                     _cmd.Parameters.AddWithValue("@A1", A1Byte);
                     _cmd.Parameters.AddWithValue("@A2", A2Byte);
                     _cmd.Parameters.AddWithValue("@A3", A3Byte);
+                    _cmd.Parameters.AddWithValue("@zippath", zipbyte); 
                     _cmd.Parameters.AddWithValue("@A1path", A1Upload.PostedFile.FileName);
                     _cmd.Parameters.AddWithValue("@A2path", A2Upload.PostedFile.FileName);
                     _cmd.Parameters.AddWithValue("@A3path", A3Upload.PostedFile.FileName);
+                    _cmd.Parameters.AddWithValue("@zipname", zipUpload.PostedFile.FileName);
 
                     SqlDataAdapter sda = new SqlDataAdapter();
                     sda.InsertCommand = _cmd;
@@ -1224,7 +1494,7 @@ namespace GO_IT
 
                 else
                 {
-                    string insert = " INSERT INTO RevisionExtra(Name, Description, ID, OrderID, Price, ClientID) SELECT Name, '" + funcDescribe.Text + "', ID, OrderID, Price, ClientID FROM OrderExtra WHERE ID='" + funcid.Text + "' ";
+                    string insert = " INSERT INTO RevisionExtra(Name, Description, ID, OrderID, Price, ClientID, Badge) SELECT Name, '" + funcDescribe.Text + "', ID, OrderID, Price, ClientID, 'New' FROM OrderExtra WHERE ID='" + funcid.Text + "' ";
                     SqlCommand icmd = new SqlCommand(insert, con);
                     SqlDataAdapter sda = new SqlDataAdapter();
                     sda.InsertCommand = icmd;
@@ -1259,7 +1529,7 @@ namespace GO_IT
             {
                 read.Close();
 
-                string insert = " INSERT INTO DeletedExtras(Name, Description, ID, OrderID, Price, ClientID) SELECT Name, Description, ID, OrderID, Price, ClientID from OrderExtra WHERE ID='" + funcID.Text + "' ";
+                string insert = " INSERT INTO DeletedExtras(Name, Description, ID, OrderID, Price, ClientID, Badge) SELECT Name, Description, ID, OrderID, Price, ClientID, 'New' from OrderExtra WHERE ID='" + funcID.Text + "' ";
                 string delete1 = " DELETE FROM OrderExtra WHERE ID='" + funcID.Text + "' ";
                 string delete2 = " DELETE FROM RevisionExtra WHERE ID='" + funcID.Text + "' ";
 
@@ -1298,6 +1568,8 @@ namespace GO_IT
             editmodal3.Visible = true;
 
             DelID.Text = id.Text.ToString().Split(' ')[1];
+
+            update_badge("Orders", "OrderID", id.Text.ToString().Split(' ')[1]);
         }
 
         protected void confirm_delete_Click(object sender, EventArgs e)
@@ -1411,9 +1683,9 @@ namespace GO_IT
 
                         read2.Close();
 
-                        insert1 = " INSERT INTO DeletedOrders(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, DateDeleted) SELECT ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, '" + DateTime.Now + "' FROM Orders WHERE OrderID='" + DelID.Text + "' ";
-                        insert2 = " INSERT INTO Refunds (OrderID, Amount, DateRequested, ClientID, Original, Percentage, ID, status) VALUES('" + DelID.Text + "', " + amount + ", '" + DateTime.Now.Date + "', '" + _user + "', " + o_amount + ", '" + percent + "', '" + _rdm + "', 'pending') ";
-                        insert3 = " INSERT INTO DeletedExtras(Name, Description, ID, OrderID, Price, ClientID) SELECT Name, Description, ID, OrderID, Price, ClientID from OrderExtra WHERE OrderID='" + DelID.Text + "' ";
+                        insert1 = " INSERT INTO DeletedOrders(ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, DateDeleted, Badge) SELECT ServiceID, ServiceName, ServiceAmount, ProjectName, Description, Features, ClientID, OrderID, DateOrdered, Attachment1, Attachment2, Attachment3, DateExpected, Quantity, TotalAmount, image, Apath1, Apath2, Apath3, '" + DateTime.Now + "', 'New' FROM Orders WHERE OrderID='" + DelID.Text + "' ";
+                        insert2 = " INSERT INTO Refunds (OrderID, Amount, DateRequested, ClientID, Original, Percentage, ID, status, Badge) VALUES('" + DelID.Text + "', " + amount + ", '" + DateTime.Now.Date + "', '" + _user + "', " + o_amount + ", '" + percent + "', '" + _rdm + "', 'pending', 'New') ";
+                        insert3 = " INSERT INTO DeletedExtras(Name, Description, ID, OrderID, Price, ClientID, Badge) SELECT Name, Description, ID, OrderID, Price, ClientID, 'New' from OrderExtra WHERE OrderID='" + DelID.Text + "' ";
                         delete1 = " DELETE FROM Orders WHERE OrderID='" + DelID.Text + "' ";
                         delete2 = " DELETE FROM Revisions WHERE OrderID='" + DelID.Text + "' ";
                         delete3 = " DELETE FROM OrderExtra WHERE OrderID='" + DelID.Text + "' ";
@@ -1636,6 +1908,8 @@ namespace GO_IT
             }
             con.Close();
             F_BindExtra(_id);
+
+            update_badge("Orders", "OrderID", _id);
         }
 
         protected void finishedDelete(object sender, EventArgs e)
@@ -1705,6 +1979,8 @@ namespace GO_IT
             }
             con.Close();
             C_BindExtra(_id);
+
+            update_badge("DeletedOrders", "OrderID", _id);
         }
 
         protected void restore_function_Click(object sender, EventArgs e)
@@ -1750,6 +2026,8 @@ namespace GO_IT
                 restore_good.Style["display"] = "none";
                 restore_bad.Style["display"] = "block";
             }
+
+            update_badge("DeletedExtras", "ID", funcID.Text);
         }
 
         protected void confirm_func_restore_Click(object sender, EventArgs e)
@@ -1821,7 +2099,7 @@ namespace GO_IT
                     {
                         read.Close();
 
-                        string insert = " INSERT INTO RevisionExtra(Name, Description, ID, OrderID, Price, ClientID, Type) SELECt Name, Description, ID, OrderID, Price, ClientID, 'Restore' FROM DeletedExtras WHERE ID='" + func_ID.Text + "' ";
+                        string insert = " INSERT INTO RevisionExtra(Name, Description, ID, OrderID, Price, ClientID, Type, Badge) SELECt Name, Description, ID, OrderID, Price, ClientID, 'Restore', 'New' FROM DeletedExtras WHERE ID='" + func_ID.Text + "' ";
                         //string delete = " DELETE FROM DeletedExtra WHERE ID='" + func_ID.Text + "' ";
 
                         SqlCommand cmd1, cmd4;
@@ -2010,6 +2288,7 @@ namespace GO_IT
             revision_order_container.Style["display"] = "block";
             restore_container.Style["display"] = "none";
             revision_delete_order_container.Style["display"] = "none";
+            rev_o_success_contain.Style["display"] = "none";
 
             string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
             SqlConnection con = new SqlConnection(constring);
@@ -2025,11 +2304,15 @@ namespace GO_IT
                 rev_o_Description.Value = read.GetValue(4).ToString();
                 rev_o_Features.Value = read.GetValue(5).ToString();
                 rev_o_DateOrdered.Text = Convert.ToDateTime(read.GetValue(8)).ToString();
+                rev_o_A1.Text = read.GetValue(17).ToString();
+                rev_o_A2.Text = read.GetValue(18).ToString();
+                rev_o_A3.Text = read.GetValue(19).ToString();
             }
 
             con.Close();
             //BindExtra(_oid);
             BindExtraGeneral("RevisionExtra", _oid, rev_o_ExtraFunctionlList, "OrderID");
+            update_badge("Revisions", "OrderID", _oid);
         }
 
         protected void r_delete1_Click(object sender, EventArgs e)
@@ -2044,6 +2327,7 @@ namespace GO_IT
             revision_delete_order_container.Style["display"] = "block";
 
             rev_o_del_ID.Text = id.Text.ToString().Split(' ')[1];
+            update_badge("Revisions", "OrderID", id.Text.ToString().Split(' ')[1]);
         }
 
         protected void rev_o_Save_Click(object sender, EventArgs e)
@@ -2052,7 +2336,11 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string Desc = rev_o_Description.Value, Feat = rev_o_Features.Value;
+            string Desc = rev_o_Description.Value, Feat = rev_o_Features.Value, zipext = Path.GetExtension(rev_o_zipUpload.PostedFile.FileName);
+            decimal a1size = Math.Round(((decimal)rev_o_A1Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal a2size = Math.Round(((decimal)rev_o_A2Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal a3size = Math.Round(((decimal)rev_o_A3Upload.PostedFile.ContentLength / (decimal)1024), 2);
+            decimal zipsize = Math.Round(((decimal)rev_o_zipUpload.PostedFile.ContentLength / (decimal)1024), 2);
 
             if (rev_o_ProjectName.Value != null || rev_o_ProjectName.Value != "")
             {
@@ -2078,8 +2366,38 @@ namespace GO_IT
                 //rev_o_DateExpectedError.Text = "*This field can not be empty";
             }
 
+            if (rev_o_A1Upload.HasFile && a1size < 5200)
+            {
+                rev_o_A1Error.Visible = false;
+                rev_o_A1Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (rev_o_A2Upload.HasFile && a2size < 5200)
+            {
+                rev_o_A2Error.Visible = false;
+                rev_o_A2Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (rev_o_A3Upload.HasFile && a3size < 5200)
+            {
+                rev_o_A3Error.Visible = false;
+                rev_o_A3Error.Text = "*File must not be greater than 5MB";
+            }
+
+            if (rev_o_zipUpload.HasFile && zipsize < 52000)
+            {
+                rev_o_zipError.Visible = false;
+                rev_o_zipError.Text = "*File must not be greater than 50MB";
+            }
+
+            if (rev_o_zipUpload.HasFile && zipext == ".zip")
+            {
+                rev_o_zipError.Visible = false;
+                rev_o_zipError.Text = "*File must be a zip file";
+            }
+
             //VALIDATION
-            
+
             if (rev_o_ProjectName.Value == null || rev_o_ProjectName.Value == "")
             {
                 rev_o_ProjectNameError.Visible = true;
@@ -2116,6 +2434,36 @@ namespace GO_IT
                 rev_o_DateExpectedError.Text = "*Date must not be less than today's date";
             }
 
+            else if (rev_o_A1Upload.HasFile && a1size > 5200)
+            {
+                rev_o_A1Error.Visible = true;
+                rev_o_A1Error.Text = "*File must not be greater than 5MB";
+            }
+
+            else if (rev_o_A2Upload.HasFile && a2size > 5200)
+            {
+                rev_o_A2Error.Visible = true;
+                rev_o_A2Error.Text = "*File must not be greater than 5MB";
+            }
+
+            else if (rev_o_A3Upload.HasFile && a3size > 5200)
+            {
+                rev_o_A3Error.Visible = true;
+                rev_o_A3Error.Text = "*File must not be greater than 5MB";
+            }
+
+            else if (rev_o_zipUpload.HasFile && zipsize > 52000)
+            {
+                rev_o_zipError.Visible = true;
+                rev_o_zipError.Text = "*File must not be greater than 50MB";
+            }
+
+            else if (rev_o_zipUpload.HasFile && zipext != ".zip")
+            {
+                rev_o_zipError.Visible = true;
+                rev_o_zipError.Text = "*File must be a zip file";
+            }
+
             else
             {
                 string update = "UPDATE Revisions SET ProjectName='" + rev_o_ProjectName.Value + "', DateExpected='" + rev_o_DateExpected.Text + "', Description='" + rev_o_Description.Value + "', Features='" + rev_o_Features.Value + "' WHERE OrderID='" + rev_o_ID.Value + "' ";
@@ -2124,19 +2472,22 @@ namespace GO_IT
                 sda.UpdateCommand = ucmd;
                 sda.UpdateCommand.ExecuteNonQuery();
 
-                string A1Path, A2Path, A3Path, A1Name, A2Name, A3Name, ext1, ext2, ext3;
+                string A1Path, A2Path, A3Path, zipPath, zipName, A1Name, A2Name, A3Name, ext1, ext2, ext3, zipext2;
 
                 A1Path = rev_o_A1Upload.PostedFile.FileName;
                 A2Path = rev_o_A2Upload.PostedFile.FileName;
                 A3Path = rev_o_A3Upload.PostedFile.FileName;
+                zipPath = rev_o_zipUpload.PostedFile.FileName;
 
                 A1Name = Path.GetFileName(A1Path);
                 A2Name = Path.GetFileName(A2Path);
                 A3Name = Path.GetFileName(A3Path);
+                zipName = Path.GetFileName(zipPath);
 
                 ext1 = Path.GetExtension(A1Name);
                 ext2 = Path.GetExtension(A2Name);
                 ext3 = Path.GetExtension(A3Name);
+                zipext2 = Path.GetExtension(zipName);
 
                 if (ext1 != "")
                 {
@@ -2184,6 +2535,23 @@ namespace GO_IT
                     SqlCommand _ucmd = new SqlCommand(_update, con);
                     _ucmd.Parameters.AddWithValue("@A3", A3Byte);
                     _ucmd.Parameters.AddWithValue("@A3path", rev_o_A3Upload.PostedFile.FileName.ToString());
+                    SqlDataAdapter _sda = new SqlDataAdapter();
+                    _sda.UpdateCommand = _ucmd;
+                    _sda.UpdateCommand.ExecuteNonQuery();
+                }
+
+                if (zipext2 != "")
+                {
+                    byte[] zipByte;
+                    using (BinaryReader zipbr = new BinaryReader(rev_o_zipUpload.PostedFile.InputStream))
+                    {
+                        zipByte = zipbr.ReadBytes(rev_o_zipUpload.PostedFile.ContentLength);
+                    }
+
+                    string _update = "UPDATE Revisions SET ZipFilePath=@zippath, ZipFileName=@zipname WHERE OrderID='" + rev_o_ID.Value + "' ";
+                    SqlCommand _ucmd = new SqlCommand(_update, con);
+                    _ucmd.Parameters.AddWithValue("@zippath", zipByte);
+                    _ucmd.Parameters.AddWithValue("@zipname", rev_o_zipUpload.PostedFile.FileName.ToString());
                     SqlDataAdapter _sda = new SqlDataAdapter();
                     _sda.UpdateCommand = _ucmd;
                     _sda.UpdateCommand.ExecuteNonQuery();
@@ -2357,6 +2725,8 @@ namespace GO_IT
             }
 
             con.Close();
+
+            update_badge("RevisionExtra", "ID", id.Text);
         }
 
         protected void rev_func_delete_Click(object sender, EventArgs e)
@@ -2369,6 +2739,8 @@ namespace GO_IT
             rev_func_del_container.Style["display"] = "block";
 
             rev_func_del_ID.Text = id.Text;
+
+            update_badge("RevisionExtra", "ID", id.Text);
         }
 
         protected void rev_func_save_Click(object sender, EventArgs e)
@@ -2746,6 +3118,133 @@ namespace GO_IT
         protected void refunds_go_Click(object sender, EventArgs e)
         {
             my_refunds_search();
+        }
+
+        protected void transactions_view(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("id"));
+
+            update_badge("Transactions", "TransactionID", id.Text);
+        }
+
+        protected void refunds_view(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("id"));
+
+            update_badge("Refunds", "ID", id.Text);
+        }
+
+        protected void notify_view(object sender, EventArgs e)
+        {
+            DataListItem dlst = (sender as LinkButton).NamingContainer as DataListItem;
+            Label id = ((Label)dlst.FindControl("id"));
+
+            update_badge("Notifications", "ID", id.Text);
+        }
+
+        protected void file_download(string table, string binary_column, string binary_name, string condition_column, string id)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM " + table + " WHERE " + condition_column + "=" + id + " ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            byte[] bytes;
+            string filename;
+
+            read.Read();
+            bytes = (byte[])read[binary_column];
+            filename = read[binary_name].ToString();
+            read.Close();
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.Charset = " ";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + filename);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
+
+            con.Close();
+        }
+
+        protected void zip_download(string table, string binary_name, string condition_column, string id)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM " + table + " WHERE " + condition_column + "=" + id + " ", path = String.Empty;
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            while(read.Read())
+            {
+               path = read[binary_name].ToString();
+            }
+
+            if (File.Exists(Server.MapPath(path)))
+            {
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(path));
+                Response.WriteFile(Server.MapPath(path));
+                Response.End();
+            }
+
+            else
+            {
+                //Response.Write("<script>alert('Project with OrderID '" + ID.Value + "' doesn't have any project file...')</script>");
+                warning.Style["background-color"] = "orangered";
+                warning.Style["color"] = "white";
+                warnText.InnerHtml = "Project with OrderID '" + id + "' doesn't have any project file...";
+            }
+                  
+            con.Close();
+        }
+
+        protected void A1_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment1", "Apath1", "OrderID", ID.Value);
+        }
+
+        protected void A2_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment2", "Apath2", "OrderID", ID.Value);
+        }
+
+        protected void A3_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment3", "Apath3", "OrderID", ID.Value);
+        }
+
+        protected void zipfile_Click(object sender, EventArgs e)
+        {
+            zip_download("Orders", "ZipFilePath", "OrderID", ID.Value);
+        }
+
+        protected void rev_o_zipfile_Click(object sender, EventArgs e)
+        {
+            file_download("Revisions", "ZipFilePath", "ZipFileName", "OrderID", rev_o_ID.Value);
+        }
+
+        protected void rev_o_A1_Click(object sender, EventArgs e)
+        {
+            file_download("Revisions", "Attachment1", "Apath1", "OrderID", rev_o_ID.Value);
+        }
+
+        protected void rev_o_A2_Click(object sender, EventArgs e)
+        {
+            file_download("Revisions", "Attachment2", "Apath2", "OrderID", rev_o_ID.Value);
+        }
+
+        protected void rev_o_A3_Click(object sender, EventArgs e)
+        {
+            file_download("Revisions", "Attachment3", "Apath3", "OrderID", rev_o_ID.Value);
         }
     }
 }

@@ -3,6 +3,12 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2021 Froala Labs
  */
+.cart-badge
+{
+   padding:4px; 
+   font-size:14px; 
+   color:blue;
+}        
 
 .fr-clearfix::after {
   clear: both;

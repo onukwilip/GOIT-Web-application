@@ -278,7 +278,7 @@
             padding:0px;
         }
 
-        .active{border-bottom:solid 3px Darkgreen;}
+        .my-active{border-bottom:solid 3px Darkgreen;}
 
         .big-block
         {
@@ -302,7 +302,7 @@
         }
       </style>
   </head>
-  <body data-home-page="#" data-home-page-title="" class="u-body u-xl-mode">
+  <body class="u-body u-xl-mode">
       <form id="form1" runat="server">
           <header class="u-clearfix u-header u-header" id="sec-a2c0" style="box-shadow:1px 1px 4px 1px black;">
                       <script src="https://apps.elfsight.com/p/platform.js" defer></script>
@@ -384,7 +384,9 @@
                                           </li>
                                       </asp:Panel>
                                       <li class="u-nav-item">
-                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="#"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="#"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge" CssClass="cart-badge"></asp:Label></sup>
+                                            </a>
                                       </li>
                                   </ul>
                               </div>
@@ -452,7 +454,9 @@
                                               </asp:Panel>
 
                                               <li class="u-nav-item">
-                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                      Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge2" CssClass="cart-badge"></asp:Label></sup>
+                                                  </a>
                                               </li>
                                           </ul>
                                       </div>
@@ -466,7 +470,7 @@
           <section style="display:flex; justify-content:center; align-content:center; background:url(images/2743630793-01.jpeg); background-repeat:no-repeat; background-size:cover;"> 
               <div class="modal-login animate" id="modal2">
                 <div>
-                    <span onclick="Signin()" class="login active " id="login">Login</span> | <span onclick="MySignup()" class="signup" id="signup">Sign Up</span> 
+                    <span onclick="Signin()" class="login my-active " id="login">Login</span> | <span onclick="MySignup()" class="signup" id="signup">Sign Up</span> 
                 </div>
                 
                 <div name="modal-form" id="login_form">

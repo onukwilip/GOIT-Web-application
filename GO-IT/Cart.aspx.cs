@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.IO;
 
 namespace GO_IT
 {
@@ -23,7 +24,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string select = "SELECT * FROM Users WHERE Email='" + User + "'";
+            string select = "SELECT * FROM Users WHERE Email='" + User + "'", code2 = String.Empty;
             SqlCommand cmd = new SqlCommand(select, con);
             SqlDataReader read = cmd.ExecuteReader();
 
@@ -34,6 +35,7 @@ namespace GO_IT
                 {
                     string uname = read.GetValue(1).ToString();
                     string code = read.GetValue(0).ToString();
+                    code2= read.GetValue(0).ToString();
                     login.Visible = false;
                     user.Visible = true;
                     name.InnerHtml = String.Concat("<i class=\"fa-solid fa-user-check\"></i>", " ", " Hey!..." + uname.Split(' ')[0] + "");
@@ -56,6 +58,7 @@ namespace GO_IT
                 user2.Visible = false;
                 cart.HRef = "Register.aspx";
                 cart2.HRef = "Register.aspx";
+                Response.Redirect("Register.aspx");
             }
 
             con.Close();
@@ -67,6 +70,9 @@ namespace GO_IT
 
             BindTotal();
 
+            GeneralClass general = new GeneralClass();
+            general.SubBadge("Cart", cart_badge, code2);
+            general.SubBadge("Cart", cart_badge2, code2);
         }
 
         protected void BindTotal()
@@ -189,6 +195,22 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
+            string select = " SELECT * FROM Cart WHERE OrderID='" + _oid.Split(' ')[1] + "' ", path = string.Empty;
+            SqlCommand scmd = new SqlCommand(select, con);
+            SqlDataReader read = scmd.ExecuteReader();
+
+            if (read.Read())
+            {
+                path = Server.MapPath(read["ZipFilePath"].ToString());
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            read.Close();
+
             string delete = "DELETE FROM Cart WHERE OrderID='" + _oid.Split(' ')[1] + "'";
             string delete2 = "DELETE FROM CartExtra WHERE OrderID='" + _oid.Split(' ')[1] + "'";
             SqlCommand cmd = new SqlCommand(delete, con);
@@ -201,10 +223,10 @@ namespace GO_IT
             sda.DeleteCommand.ExecuteNonQuery();
 
             sda2.DeleteCommand = cmd2;
-            sda2.DeleteCommand.ExecuteNonQuery();
+            sda2.DeleteCommand.ExecuteNonQuery();        
 
             con.Close();
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Item deleted successfully\");", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Item deleted successfully + '"+path+"'\");", true);
 
             Bind();
             con.Close();

@@ -18,7 +18,7 @@ namespace GO_IT
         {
             HttpCookie _ID = Request.Cookies["myuser"];
 
-            string User = _ID != null ? _ID.Value.Split('=')[1] : "undefined";
+            string User = _ID != null ? _ID.Value.Split('=')[1] : "undefined", code2 = String.Empty;
 
             string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
             SqlConnection con = new SqlConnection(constring);
@@ -34,6 +34,7 @@ namespace GO_IT
                 {
                     string uname = read.GetValue(1).ToString();
                     string code = read.GetValue(0).ToString();
+                    code2 = read.GetValue(0).ToString();
                     login1.Visible = false;
                     user.Visible = true;
                     name.InnerHtml = String.Concat("<i class=\"fa-solid fa-user-check\"></i>", " ", " Hey!..." + uname.Split(' ')[0] + "");
@@ -53,11 +54,15 @@ namespace GO_IT
                 user.Visible = false;
                 login2.Visible = true;
                 user2.Visible = false;
-                cart.HRef = "Register.aspx";
+                cart.HRef = "#";
                 cart2.HRef = "Register.aspx";
             }
 
             con.Close();
+            
+            GeneralClass general = new GeneralClass();
+            general.SubBadge("Cart", cart_badge, code2);
+            general.SubBadge("Cart", cart_badge2, code2);
         }
 
         protected void Mail(int code, string email, string fName, string lName, string Body, string subject)

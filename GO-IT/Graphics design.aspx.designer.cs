@@ -58,6 +58,15 @@ namespace GO_IT {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart;
         
         /// <summary>
+        /// cart_badge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge;
+        
+        /// <summary>
         /// login2 control.
         /// </summary>
         /// <remarks>
@@ -92,6 +101,15 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor cart2;
+        
+        /// <summary>
+        /// cart_badge2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cart_badge2;
         
         /// <summary>
         /// s_name1 control.
@@ -211,6 +229,15 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload attach1;
         
         /// <summary>
+        /// a1error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label a1error;
+        
+        /// <summary>
         /// attach2 control.
         /// </summary>
         /// <remarks>
@@ -220,6 +247,15 @@ namespace GO_IT {
         protected global::System.Web.UI.WebControls.FileUpload attach2;
         
         /// <summary>
+        /// a2error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label a2error;
+        
+        /// <summary>
         /// attach3 control.
         /// </summary>
         /// <remarks>
@@ -227,6 +263,33 @@ namespace GO_IT {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload attach3;
+        
+        /// <summary>
+        /// a3error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label a3error;
+        
+        /// <summary>
+        /// zipfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload zipfile;
+        
+        /// <summary>
+        /// errorZip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label errorZip;
         
         /// <summary>
         /// extrapage control.

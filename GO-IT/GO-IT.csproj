@@ -83,6 +83,7 @@
     <Content Include="Dashboard.aspx" />
     <Content Include="GetImage.aspx" />
     <Content Include="Graphics design.aspx" />
+    <Content Include="images\285629_zip_file_icon.png" />
     <Content Include="images\empty-cart.png" />
     <Content Include="images\gift.png" />
     <Content Include="images\icons8-edit-48.png" />
@@ -90,6 +91,7 @@
     <Content Include="images\icons8-purchases-20.png" />
     <Content Include="images\icons8-search-512.png" />
     <Content Include="images\icons8-shopping-cart-promotion-20.png" />
+    <Content Include="images\icons8-zip-file-53.png" />
     <Content Include="images\no-results.png" />
     <Content Include="images\view.png" />
     <Content Include="index.aspx" />
@@ -365,6 +367,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fontawesome-free-6.1.1-web\" />
+    <Folder Include="ZipUploads\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

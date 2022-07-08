@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MailKit.Net.Smtp;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
-using MimeKit;
 using System.IO;
+using System.Data;
+using System.Drawing;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace GO_IT
 {
@@ -80,6 +84,32 @@ namespace GO_IT
             }
 
             con.Close();
+        }
+
+        public void SubBadge(string table, Label num, string id)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string select = " SELECT * FROM " + table + " WHERE Badge='New' AND ClientID='" + id + "' ";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            sda.Fill(ds);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                read.Close();
+                num.Visible = true;
+                num.Text = ds.Tables[0].Rows.Count.ToString();
+            }
+
+            else
+            {
+                num.Visible = false;
+            }
         }
     }
 }

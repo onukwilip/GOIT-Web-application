@@ -258,7 +258,7 @@
       <style>
 
           /*Sidebar*/
-          *{font-family:Montserrat}
+          *{font-family:Montserrat; word-wrap:break-word; word-break:break-word}
           a{text-decoration:none;}
           label{width:100%; display:block}
 
@@ -715,6 +715,35 @@
             display:block;
         }
         
+        .badge
+        {
+            background-color:cornflowerblue;
+             z-index:3; 
+             color:white; 
+             padding:5px 5px; 
+             font-size:12px; 
+             border-radius:50%; 
+             box-sizing:border-box;
+        }
+        
+        .zip-contain
+        {
+            display:block; 
+            border-radius:5px; 
+            border:3px double black; 
+            padding:10px; 
+            background-color:beige; 
+            width:65%; 
+            box-shadow:0px 0px 5px 0px black;
+            color:black; 
+        }
+
+        .zip-img
+        {
+            width:40px;
+            height:auto;
+        }
+
         @media only screen and (max-width: 1000px)
         {
             /* For tablets: */
@@ -749,23 +778,50 @@
 
       </style>
   </head>
-  <body data-home-page="index.html" data-home-page-title="Index" class="u-body u-xl-mode" id="body">
+  <body data-home-page="Dashboard.aspx" data-home-page-title="Dashboard" class="u-body u-xl-mode" id="body">
       <form id="form1" runat="server">
           <div id="overlay" class="overlay" onclick="cancel()" runat="server"></div>
             <div id="Modal" class="editmodal">
                 <div class="content" id="content">
                     <span class="cancel" onclick="cancel()">&times;</span><br /><br />
                     <div>
-                      <a name="dashboard" href="#dashboard" onclick="MyDashboard()">Dashboard</a>
+                     <!-- <a name="dashboard" href="#dashboard" onclick="MyDashboard()">Dashboard</a>
                       <a name="orders" href="#orders" onclick="MyOrder()">Orders</a>
                       <a name="finish" href="#finish" onclick="MyClosed()">Finished Orders</a>
                       <a name="cancelled" href="#cancelled" onclick="MyCancel()">Cancelled orders</a>
                       <a name="Notifications" href="#notifications" onclick="MyNotify()">Notifications</a>
                       <a name="Details" href="#details" onclick="MyDetails()">User details</a>
                       <asp:LinkButton ID="LinkButton1" runat="server" OnClick="logout_Click">Logout</asp:LinkButton>
-                   </div>
+                   </div> -->
+                        <a style="border-top-left-radius:10px; border-top-right-radius:10px;" name="dashboard" href="#dashboard" onclick="MyDashboard()">
+                              Dashboard
+                          </a>
+                          <a name="orders" href="#orders" onclick="MyOrder()">
+                              Orders <sup><asp:Label Visible="false" runat="server" ID="open_order_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="finish" href="#finish" onclick="MyClosed()">
+                              Finished Orders <sup><asp:Label Visible="false" runat="server" ID="closed_order_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="cancelled" href="#cancelled" onclick="MyCancel()">
+                              Cancelled orders <sup><asp:Label Visible="false" runat="server" ID="deleted_order_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="revisions" href="#revisions" onclick="MyRevision()">
+                              Revisions <sup><asp:Label Visible="false" runat="server" ID="revision_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="transactions" href="#transactions" onclick="MyTransaction()">
+                              Transactions <sup><asp:Label Visible="false" runat="server" ID="transaction_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="Notifications" href="#notifications" onclick="MyNotify()">
+                              Notifications <sup><asp:Label Visible="false" runat="server" ID="notify_badge" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                          </a>
+                          <a name="Details" href="#details" onclick="MyDetails()">
+                              User details
+                          </a>
+                    </div>
                 </div>
             </div>
+
+          <!--Open Order Dialog-->
 
           <asp:Panel ID="overlay2" CssClass="overlay2" runat="server" Visible="false"></asp:Panel>
     <asp:Panel ID="EditModal" CssClass="editmodal2" runat="server" Visible="false">
@@ -805,15 +861,26 @@
             </label><br />
 
             <label>
-                Attachment1: <span id="A1" runat="server"></span> <asp:FileUpload runat="server" ID="A1Upload" />
+                Attachment1: <asp:LinkButton ID="A1" runat="server" OnClick="A1_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="A1Upload" />
+                <asp:Label ID="A1Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
             </label><br />
 
             <label>
-                Attachment2: <span id="A2" runat="server"></span> <asp:FileUpload runat="server" ID="A2Upload" />
+                Attachment2: <asp:LinkButton ID="A2" runat="server" OnClick="A2_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="A2Upload" />
+                <asp:Label ID="A2Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
             </label><br />
 
             <label>
-                Attachment3: <span id="A3" runat="server"></span> <asp:FileUpload runat="server" ID="A3Upload" />
+                Attachment3: <asp:LinkButton ID="A3" runat="server" OnClick="A3_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="A3Upload" />
+                <asp:Label ID="A3Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+
+            <label>
+                <asp:LinkButton ID="zipfile" runat="server" OnClick="zipfile_Click" CssClass="zip-contain">
+                   <img src="images/285629_zip_file_icon.png" class="zip-img" /> Download project file...  
+                </asp:LinkButton><br />
+                Change existing project file (Items must be in .zip format only) <asp:FileUpload runat="server" ID="zipUpload" />
+                <asp:Label ID="zipError" runat="server" Visible="false" CssClass="error"></asp:Label>
             </label><br />
 
             <div>
@@ -1072,15 +1139,26 @@
             </label><br />
 
             <label>
-                Attachment1: <span id="rev_o_A1" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A1Upload" />
+                Attachment1: <asp:LinkButton ID="rev_o_A1" runat="server" OnClick="rev_o_A1_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="rev_o_A1Upload" />
+                <asp:Label ID="rev_o_A1Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
             </label><br />
 
             <label>
-                Attachment2: <span id="rev_o_A2" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A2Upload" />
+                Attachment2: <asp:LinkButton ID="rev_o_A2" runat="server" OnClick="rev_o_A2_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="rev_o_A2Upload" />
+                <asp:Label ID="rev_o_A2Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
             </label><br />
 
             <label>
-                Attachment3: <span id="rev_o_A3" runat="server"></span> <asp:FileUpload runat="server" ID="rev_o_A3Upload" />
+                Attachment3: <asp:LinkButton ID="rev_o_A3" runat="server" OnClick="rev_o_A3_Click"></asp:LinkButton> <asp:FileUpload runat="server" ID="rev_o_A3Upload" />
+                <asp:Label ID="rev_o_A3Error" runat="server" Visible="false" CssClass="error"></asp:Label> 
+            </label><br />
+
+            <label>
+                <asp:LinkButton ID="rev_o_zipfile" runat="server" OnClick="rev_o_zipfile_Click" CssClass="zip-contain">
+                   <img src="images/285629_zip_file_icon.png" class="zip-img" /> Download project file...  
+                </asp:LinkButton><br />
+                Change existing project file (Items must be in .zip format only) <asp:FileUpload runat="server" ID="rev_o_zipUpload" />
+                <asp:Label ID="rev_o_zipError" runat="server" Visible="false" CssClass="error"></asp:Label>
             </label><br />
 
             <div>
@@ -1295,7 +1373,9 @@
                                           </li>
                                       </asp:Panel>
                                       <li class="u-nav-item">
-                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="Register.aspx"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                            <a id="cart" runat="server" style="float:right" class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-black u-text-hover-palette-2-base" href="Register.aspx"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge" CssClass="cart-badge"></asp:Label></sup>
+                                            </a>
                                       </li>
                                   </ul>
                               </div>
@@ -1363,7 +1443,9 @@
                                               </asp:Panel>
 
                                               <li class="u-nav-item">
-                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> Cart</a>
+                                                  <a class="u-button-style u-nav-link" href="Cart.aspx" id="cart2" runat="server" style="padding: 10px;"><i class="fa-solid fa-cart-arrow-down"></i> 
+                                                      Cart<sup><asp:Label Visible="false" runat="server" ID="cart_badge2" CssClass="cart-badge"></asp:Label></sup>
+                                                  </a>
                                               </li>
                                           </ul>
                                       </div>
@@ -1384,15 +1466,31 @@
                               <div></div>
                               <div></div>
                           </div><br />
-              <div class="submenu">
-                  <a style="border-top-left-radius:10px; border-top-right-radius:10px;" name="dashboard" href="#dashboard" onclick="MyDashboard()">Dashboard</a>
-                  <a name="orders" href="#orders" onclick="MyOrder()">Orders</a>
-                  <a name="finish" href="#finish" onclick="MyClosed()">Finished Orders</a>
-                  <a name="cancelled" href="#cancelled" onclick="MyCancel()">Cancelled orders</a>
-                  <a name="revisions" href="#revisions" onclick="MyRevision()">Revisions</a>
-                  <a name="transactions" href="#transactions" onclick="MyTransaction()">Transactions</a>
-                  <a name="Notifications" href="#notifications" onclick="MyNotify()">Notifications</a>
-                  <a name="Details" href="#details" onclick="MyDetails()">User details</a>
+              <div class="submenu" id="submenu" runat="server">
+                  <a style="border-top-left-radius:10px; border-top-right-radius:10px;" name="dashboard" href="#dashboard" onclick="MyDashboard()">
+                      Dashboard
+                  </a>
+                  <a name="orders" href="#orders" onclick="MyOrder()">
+                      Orders <sup><asp:Label Visible="false" runat="server" ID="new_order" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="finish" href="#finish" onclick="MyClosed()">
+                      Finished Orders <sup><asp:Label Visible="false" runat="server" ID="new_finish" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="cancelled" href="#cancelled" onclick="MyCancel()">
+                      Cancelled orders <sup><asp:Label Visible="false" runat="server" ID="new_cancel" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="revisions" href="#revisions" onclick="MyRevision()">
+                      Revisions <sup><asp:Label Visible="false" runat="server" ID="new_revision" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="transactions" href="#transactions" onclick="MyTransaction()">
+                      Transactions <sup><asp:Label Visible="false" runat="server" ID="new_transaction" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="Notifications" href="#notifications" onclick="MyNotify()">
+                      Notifications <sup><asp:Label Visible="false" runat="server" ID="new_notify" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                  </a>
+                  <a name="Details" href="#details" onclick="MyDetails()">
+                      User details
+                  </a>
                   <asp:LinkButton ID="logout" runat="server" OnClick="logout_Click">Logout</asp:LinkButton>
               </div>
 
@@ -1594,6 +1692,7 @@
                                                 <div style="float:right;">
                                                     <asp:LinkButton ID="view" runat="server" OnClick="view_Click"><img style="width:20px; height:auto;" src="images/view.png" alt="view" /></asp:LinkButton>
                                                     <asp:LinkButton ID="delete" runat="server" OnClick="delete_Click"><img style="width:20px; height:auto;" src="images/icons8-garbage-30.png" alt="delete" /></asp:LinkButton>
+                                                    <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                 </div>
                                             </div>
                                         </div>
@@ -1682,6 +1781,7 @@
                                             <div class="col-xl-1" style="background-color:transparent; height:auto;">
                                                 <div style="float:right;">
                                                     <asp:LinkButton ID="view" runat="server" OnClick="finishedView"><img style="width:20px; height:auto;" src="images/view.png" alt="view" /></asp:LinkButton>
+                                                    <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                 </div>
                                             </div>
                                         </div>
@@ -1698,8 +1798,18 @@
                   <div id="cancelled" style="display:none; background:transparent; padding:0px;" runat="server" class="sections">
                       <div class="container-fluid">
                               <ul id="myTab" class="tab-list">
-                                  <li class="tab-active" id="a_order"><a href="#order_tab" onclick="tab_order()">Deleted orders</a></li>
-                                  <li id="a_function"><a href="#function_tab" onclick="tab_function()">Deleted functions</a></li>
+                                  <li class="tab-active" id="a_order">
+                                      <a href="#order_tab" onclick="tab_order()">
+                                          Deleted orders
+                                          <sup><asp:Label Visible="false" runat="server" ID="new_del_order" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                       </a> 
+                                      </li>
+                                  <li id="a_function">
+                                      <a href="#function_tab" onclick="tab_function()">
+                                          Deleted functions
+                                          <sup><asp:Label Visible="false" runat="server" ID="new_del_function" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                      </a>
+                                  </li>
                               </ul>
                               <div id="myTabContent" class="tab-list-content">
 
@@ -1780,6 +1890,7 @@
                                                                 <div class="col-xl-1" style="background-color:transparent; height:auto;">
                                                                     <div style="float:right;">
                                                                         <asp:LinkButton ID="view" runat="server" OnClick="cancelview"><img style="width:20px; height:auto;" src="images/view.png" alt="view" /></asp:LinkButton>
+                                                                        <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1835,6 +1946,7 @@
                                                         </div>
                                                          <div align="right" style="width:10%">
                                                              <asp:LinkButton runat="server" ID="restore_function" OnClick="restore_function_Click"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                             <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                          </div>
                                                     </div>
                                                     <div class="row">
@@ -1858,8 +1970,18 @@
                   <div id="revisions" style="display:none; background:transparent; padding:0px; margin:0;" runat="server" class="sections">               
                       <div class="container-fluid">
                           <ul class="tab">
-                              <li class="tablinks active" id="order_link" name="tablinks" onclick="Tab('event', 'rev_orders', 'order_link')"><a href="#rev_orders">Revision(Orders)</a></li>
-                              <li class=" tablinks" id="func_link" name="tablinks" onclick="Tab('event', 'rev_functions', 'func_link')"><a href="#rev_functions">Revision(Functions)</a></li>
+                              <li class="tablinks active" id="order_link" name="tablinks" onclick="Tab('event', 'rev_orders', 'order_link')">
+                                  <a href="#rev_orders">
+                                      Revision(Orders)
+                                      <sup><asp:Label Visible="false" runat="server" ID="new_rev_order" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                  </a>
+                              </li>
+                              <li class=" tablinks" id="func_link" name="tablinks" onclick="Tab('event', 'rev_functions', 'func_link')">
+                                  <a href="#rev_functions">
+                                      Revision(Functions)
+                                      <sup><asp:Label Visible="false" runat="server" ID="new_rev_function" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                  </a>
+                              </li>
                           </ul>
                           <div class="my-tab-content">
                               <div class="tabcontent active" name="tabcontent" id="rev_orders">
@@ -1942,6 +2064,7 @@
                                                     <div style="float:right;">
                                                         <asp:LinkButton ID="r_view1" runat="server" OnClick="r_view1_Click"><img style="width:20px; height:auto;" src="images/view.png" alt="view" /></asp:LinkButton>
                                                         <asp:LinkButton ID="r_delete1" runat="server" OnClick="r_delete1_Click"><img style="width:20px; height:auto;" src="images/icons8-garbage-30.png" alt="delete" /></asp:LinkButton>
+                                                        <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -2000,6 +2123,7 @@
                                                          <div align="right" style="width:10%">
                                                              <asp:LinkButton runat="server" ID="rev_func_edit" OnClick="rev_func_edit_Click"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
                                                              <asp:LinkButton runat="server" ID="rev_func_delete" OnClick="rev_func_delete_Click"><img src="images/icons8-garbage-30.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                             <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                          </div>
                                                     </div>
                                                     <div class="row">
@@ -2022,8 +2146,18 @@
                   <div id="transactions" style="display:none; background:transparent; padding:0px; margin:0;" runat="server" class="sections">
                       <div class="container-fluid">
                           <ul class="tab">
-                              <li class="tablinks active" name="tablinks2" id="transacton_link" onclick="Tab2('event', 'transactions_tab', 'transacton_link')"><a href="#transactions_tab">Transactions</a></li>
-                              <li class="tablinks" id="refunds_link" name="tablinks2" onclick="Tab2('event', 'refunds_tab', 'refunds_link')"><a href="#refunds_tab">Pending refunds</a></li>
+                              <li class="tablinks active" name="tablinks2" id="transacton_link" onclick="Tab2('event', 'transactions_tab', 'transacton_link')">
+                                  <a href="#transactions_tab">
+                                      Transactions
+                                      <sup><asp:Label Visible="false" runat="server" ID="new_transactions2" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                  </a>
+                              </li>
+                              <li class="tablinks" id="refunds_link" name="tablinks2" onclick="Tab2('event', 'refunds_tab', 'refunds_link')">
+                                  <a href="#refunds_tab">
+                                      Pending refunds
+                                      <sup><asp:Label Visible="false" runat="server" ID="new_refunds" style="padding:4px; font-size:14px; color:blue; font-weight:bolder;"></asp:Label></sup>
+                                  </a>
+                              </li>
                           </ul>
                           <div class="my-tab-content">
                               <!--Transactions tab-->
@@ -2103,12 +2237,16 @@
                                                       </label>
                                                       <br />
                                                   </div>
-                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                  <div class="col-xl-2" style="background-color:transparent">
                                                       <label>
                                                           <b>OrderID:</b>
                                                           <asp:Label ID="Label1" runat="server" Text='<%#Eval("OrderID")%>'></asp:Label>
                                                       </label>
                                                       <br />
+                                                  </div>
+                                                  <div class="col-xl-1">
+                                                      <asp:LinkButton runat="server" OnClick="transactions_view"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                      <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                   </div>
                                               </div>
                                               </div>
@@ -2179,12 +2317,16 @@
                                                       </label>
                                                       <br />
                                                   </div>
-                                                  <div class="col-xl-3" style="background-color:transparent">
+                                                  <div class="col-xl-2" style="background-color:transparent">
                                                       <label>
                                                           <b>OrderID:</b>
                                                           <asp:Label ID="Label1" runat="server" Text='<%#Eval("OrderID")%>'></asp:Label>
                                                       </label>
                                                       <br />
+                                                  </div>
+                                                  <div class="col-xl-1">
+                                                      <asp:LinkButton runat="server" OnClick="refunds_view"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                      <asp:Label CssClass="badge" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
                                                   </div>
                                               </div>
                                               </div>
@@ -2200,14 +2342,46 @@
                   <!--Notifications-->
 
                   <div id="notifications" style="display:none; background:transparent; padding:20px;" runat="server" class="sections">
-                      <asp:Panel runat="server" ID="Panel1">
+                      <!--Notifications head-->
+                      <div class="row">
+                          <h3 class="col-xl" style="font-family:Montserrat; padding-left:5px;">Notifications</h3>
+                      </div>
+                      <hr />
+                      <!--Notifications searchnull-->
+                      <asp:Panel ID="n_searchnull" runat="server" Visible="false"><asp:Label ID="Tnotify" runat="server" Visible="false"></asp:Label></asp:Panel>
+                      <!--Notifications null-->
+                      <asp:Panel runat="server" ID="notifications_null">
                           <div align="center">
                               <img src="images/gift.png" alt="image not found" style="width:200px; height:auto;" />
                               <p class="u-custom-font u-font-montserrat u-text u-text-default u-text-1">Sorry you have no notifications...</p>
                           </div>
                       </asp:Panel>
-                      <asp:Panel Visible="false" runat="server" ID="Panel2">
-
+                      <!--Notifications available-->
+                      <asp:Panel Visible="true" runat="server" ID="notifications_yes">
+                          <asp:DataList ID="notificationsList" RepeatColumns="1" RepeatDirection="Vertical" style="width:100%" runat="server">
+                              <ItemTemplate>
+                                  <div class="container-fluid" style="padding:10px 0px;">
+                                      <div class="row">
+                                          <div class="col-xl">
+                                                <div style="display:inline-block; width:45%">
+                                                    <b><asp:Label ID="Topic" runat="server" Text='<%#Eval("Topic")%>'></asp:Label></b> <asp:Label ID="id" runat="server" Visible="false" Text='<%#Eval("ID")%>'></asp:Label>
+                                                </div>
+                                                <div style="display:inline-block; width:50%" align="right">
+                                                    <asp:Label ID="Date" runat="server" Text='<%#Eval("DateSent")%>'></asp:Label>&nbsp;
+                                                    <asp:LinkButton runat="server" OnClick="notify_view"><img src="images/view.png" style="width:20px; height:20px;" /></asp:LinkButton>
+                                                    <asp:Label style="background-color:cornflowerblue; z-index:3; color:white; padding:5px 5px; font-size:12px; border-radius:50%; box-sizing:border-box;" Text="New" Visible='<%#Eval("Badge").ToString()=="New"?true:false%>' runat="server"></asp:Label> 
+                                                </div>
+                                          </div>
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-xl">
+                                              <asp:Label ID="Message" style="word-break:break-word;" runat="server" Text='<%#Eval("Message")%>'></asp:Label>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <hr />
+                              </ItemTemplate>
+                          </asp:DataList>
                       </asp:Panel>
                   </div>
 
