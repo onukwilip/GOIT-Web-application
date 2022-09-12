@@ -157,7 +157,7 @@ namespace GO_IT
                 }
             }
 
-           
+            con.Close();
         }
 
         protected void resend_Click(object sender, EventArgs e)

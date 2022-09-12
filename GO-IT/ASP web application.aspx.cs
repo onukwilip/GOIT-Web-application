@@ -158,7 +158,7 @@ namespace GO_IT
         protected void Submit(object sender, EventArgs e)
         {
             try
-            {
+            { 
                 HttpCookie _ID = Request.Cookies["myuser"];
 
                 string id = "001", client = _ID != null ? _ID.Value.Split('=')[1] : "undefined", orderid = new GeneralClass()._random().ToString(), Mydesc = description.Value, Myfeatures = features.Value, _Myfunc = functionality.Value, _MyData = database.Value, ext = Path.GetExtension(zipfile.FileName);
@@ -202,12 +202,6 @@ namespace GO_IT
                             {
                                 errorName.Visible = false;
                                 //errorName.Text = "*Project name must not be less than 6 characters...";
-                            }
-
-                            if (Convert.ToInt32(pages.Value) > 1 || Convert.ToInt32(pages.Value) < 10)
-                            {
-                                errorPages.Visible = false;
-                                //errorPages.Text = "*Number of pages name must not be less than 1 nor greater than 10...";
                             }
 
                             if (domain.Value != null || domain.Value != "")
@@ -306,12 +300,6 @@ namespace GO_IT
                             {
                                 errorDomain.Visible = true;
                                 errorDomain.Text = "*Domain name must not be less than 6 characters...";
-                            }
-
-                            else if (Convert.ToInt32(pages.Value) < 1 || Convert.ToInt32(pages.Value) > 10)
-                            {
-                                errorPages.Visible = true;
-                                errorPages.Text = "*Number of pages name must not be less than 1 nor greater than 10...";
                             }
 
                             else if (date.Value == null || date.Value == "")
@@ -538,12 +526,12 @@ namespace GO_IT
                 _read.Close();
 
                 con.Close();
-            }
+            } 
 
-            catch (Exception ex)
+           catch (Exception ex)
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"" + ex.Message + "\");", true);
-            }            
+            }           
         }
 
         protected void submit_Click(object sender, EventArgs e)
@@ -597,7 +585,7 @@ namespace GO_IT
                         client.Connect("smtp.gmail.com", 587, false);
 
                         // Note: only needed if the SMTP server requires authentication
-                        client.Authenticate("onukwilip@gmail.com", "onukwilip2006+_");
+                        client.Authenticate("onukwilip@gmail.com", "pivwvtojhaqeibge");
 
                         client.Send(message);
                         client.Disconnect(true);

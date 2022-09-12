@@ -15,10 +15,12 @@ C:\Users\User1\Desktop\GO-IT\GO-IT\bin\GO-IT.dll
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\GO-IT.pdb
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.csprojResolveAssemblyReference.cache
 C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.dll
 C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.pdb
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\MailKit.dll
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\MimeKit.dll
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\MailKit.xml
 C:\Users\User1\Desktop\GO-IT\GO-IT\bin\MimeKit.xml
+C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.csproj.AssemblyReference.cache
+C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.csproj.CoreCompileInputs.cache
+C:\Users\User1\Desktop\GO-IT\GO-IT\obj\Debug\GO-IT.csproj.CopyComplete

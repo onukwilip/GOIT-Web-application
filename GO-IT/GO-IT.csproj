@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,17 +93,20 @@
     <Content Include="images\icons8-search-512.png" />
     <Content Include="images\icons8-shopping-cart-promotion-20.png" />
     <Content Include="images\icons8-zip-file-53.png" />
+    <Content Include="images\IMG-20220323-WA0001.jpg" />
+    <Content Include="images\IMG-20220323-WA0004.jpg" />
     <Content Include="images\no-results.png" />
     <Content Include="images\view.png" />
     <Content Include="index.aspx" />
     <Content Include="packages.config" />
     <Content Include="GOInventory.cshtml" />
     <Content Include="Portfolio.aspx" />
-    <Content Include="Privacy policy.aspx" />
+    <Content Include="Help.aspx" />
     <Content Include="Web design.aspx" />
     <Content Include="Web development.aspx" />
     <Content Include="Window application.aspx" />
     <Content Include="Word processing.aspx" />
+    <None Include="Properties\PublishProfiles\go-it-prince-fullstack - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -321,12 +325,12 @@
     <Compile Include="Portfolio.aspx.designer.cs">
       <DependentUpon>Portfolio.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Privacy policy.aspx.cs">
-      <DependentUpon>Privacy policy.aspx</DependentUpon>
+    <Compile Include="Help.aspx.cs">
+      <DependentUpon>Help.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Privacy policy.aspx.designer.cs">
-      <DependentUpon>Privacy policy.aspx</DependentUpon>
+    <Compile Include="Help.aspx.designer.cs">
+      <DependentUpon>Help.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.aspx.cs">

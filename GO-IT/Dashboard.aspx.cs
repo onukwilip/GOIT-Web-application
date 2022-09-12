@@ -231,7 +231,7 @@ namespace GO_IT
                     // Response.Write("<script>alert(\"" + change.Value + "\")</script>");
                 }
 
-                Bind();
+               /* Bind();
                 BindFinish();
                 BindCancel();
                 BindCancelExtra();
@@ -261,7 +261,7 @@ namespace GO_IT
                 SubBadge("Revisions", new_rev_order);
                 SubBadge("RevisionExtra", new_rev_function);
                 SubBadge("Transactions", new_transactions2);
-                SubBadge("Refunds", new_refunds);
+                SubBadge("Refunds", new_refunds); */
             }
 
             GeneralClass general = new GeneralClass();
@@ -643,7 +643,7 @@ namespace GO_IT
             SqlConnection con = new SqlConnection(constring);
             con.Open();
 
-            string update = "UPDATE Users SET status='false', LogoutDate='" + DateTime.Now + "' WHERE Email='" + _user + "' ";
+            string update = "UPDATE Users SET status='false', LogoutDate='" + DateTime.Now + "' WHERE UserId='" + _user + "' ";
             SqlCommand ucmd = new SqlCommand(update, con);
             ucmd.CommandTimeout = 3600;
             SqlDataAdapter sda = new SqlDataAdapter();
@@ -788,6 +788,27 @@ namespace GO_IT
             BindExtra(_oid);
 
             update_badge("Orders", "OrderID", _oid);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void BindExtra(string id)
@@ -1570,6 +1591,27 @@ namespace GO_IT
             DelID.Text = id.Text.ToString().Split(' ')[1];
 
             update_badge("Orders", "OrderID", id.Text.ToString().Split(' ')[1]);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void confirm_delete_Click(object sender, EventArgs e)
@@ -1638,7 +1680,7 @@ namespace GO_IT
                     {
                         read.Close();
 
-                        string insert1, insert2, insert3, delete1, delete2, delete3, delete4, percent = String.Empty;
+                        string insert1, insert2, insert3, delete1, delete2, delete3, delete4, percent = String.Empty, path = String.Empty;
                         int amount = 0, o_amount = 0;
 
                         string select2 = "SELECT * FROM Orders WHERE OrderID='" + DelID.Text + "'";
@@ -1649,6 +1691,7 @@ namespace GO_IT
                         {
                             DateTime oDate = Convert.ToDateTime(read2.GetValue(8));
                             o_amount = Convert.ToInt32(read2.GetValue(15));
+                            path = Server.MapPath(read2.GetValue(23).ToString());
 
                             if ((oDate - DateTime.Now).TotalDays <= 7)
                             {
@@ -1679,6 +1722,11 @@ namespace GO_IT
                                 amount = (50 / 100) * o_amount;
                                 percent = "50%";
                             }
+                        }
+
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
                         }
 
                         read2.Close();
@@ -1910,6 +1958,27 @@ namespace GO_IT
             F_BindExtra(_id);
 
             update_badge("Orders", "OrderID", _id);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void finishedDelete(object sender, EventArgs e)
@@ -1979,8 +2048,30 @@ namespace GO_IT
             }
             con.Close();
             C_BindExtra(_id);
+            BindCancel();
 
             update_badge("DeletedOrders", "OrderID", _id);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void restore_function_Click(object sender, EventArgs e)
@@ -2028,6 +2119,27 @@ namespace GO_IT
             }
 
             update_badge("DeletedExtras", "ID", funcID.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void confirm_func_restore_Click(object sender, EventArgs e)
@@ -2313,6 +2425,27 @@ namespace GO_IT
             //BindExtra(_oid);
             BindExtraGeneral("RevisionExtra", _oid, rev_o_ExtraFunctionlList, "OrderID");
             update_badge("Revisions", "OrderID", _oid);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void r_delete1_Click(object sender, EventArgs e)
@@ -2328,6 +2461,27 @@ namespace GO_IT
 
             rev_o_del_ID.Text = id.Text.ToString().Split(' ')[1];
             update_badge("Revisions", "OrderID", id.Text.ToString().Split(' ')[1]);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void rev_o_Save_Click(object sender, EventArgs e)
@@ -2727,6 +2881,27 @@ namespace GO_IT
             con.Close();
 
             update_badge("RevisionExtra", "ID", id.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void rev_func_delete_Click(object sender, EventArgs e)
@@ -2741,6 +2916,27 @@ namespace GO_IT
             rev_func_del_ID.Text = id.Text;
 
             update_badge("RevisionExtra", "ID", id.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void rev_func_save_Click(object sender, EventArgs e)
@@ -3126,6 +3322,27 @@ namespace GO_IT
             Label id = ((Label)dlst.FindControl("id"));
 
             update_badge("Transactions", "TransactionID", id.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void refunds_view(object sender, EventArgs e)
@@ -3134,6 +3351,27 @@ namespace GO_IT
             Label id = ((Label)dlst.FindControl("id"));
 
             update_badge("Refunds", "ID", id.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void notify_view(object sender, EventArgs e)
@@ -3142,6 +3380,27 @@ namespace GO_IT
             Label id = ((Label)dlst.FindControl("id"));
 
             update_badge("Notifications", "ID", id.Text);
+
+            OrderBadge("Orders", "Open", new_order);
+            OrderBadge("Orders", "closed", new_finish);
+            MainBadge("DeletedOrders", "DeletedExtras", new_cancel);
+            MainBadge("Revisions", "RevisionExtra", new_revision);
+            MainBadge("Transactions", "Refunds", new_transaction);
+            SubBadge("Notifications", new_notify);
+            //SubMenu
+            OrderBadge("Orders", "Open", open_order_badge);
+            OrderBadge("Orders", "closed", closed_order_badge);
+            MainBadge("DeletedOrders", "DeletedExtras", deleted_order_badge);
+            MainBadge("Revisions", "RevisionExtra", revision_badge);
+            MainBadge("Transactions", "Refunds", transaction_badge);
+            SubBadge("Notifications", notify_badge);
+            //Tabs
+            SubBadge("DeletedOrders", new_del_order);
+            SubBadge("DeletedExtras", new_del_function);
+            SubBadge("Revisions", new_rev_order);
+            SubBadge("RevisionExtra", new_rev_function);
+            SubBadge("Transactions", new_transactions2);
+            SubBadge("Refunds", new_refunds);
         }
 
         protected void file_download(string table, string binary_column, string binary_name, string condition_column, string id)
@@ -3245,6 +3504,73 @@ namespace GO_IT
         protected void rev_o_A3_Click(object sender, EventArgs e)
         {
             file_download("Revisions", "Attachment3", "Apath3", "OrderID", rev_o_ID.Value);
+        }
+
+        protected void forgot_Click(object sender, EventArgs e)
+        {
+            string constring = ConfigurationManager.ConnectionStrings["dbconnect"].ConnectionString;
+            SqlConnection con = new SqlConnection(constring);
+            con.Open();
+
+            string id = Request.QueryString["id"], MyUsername = String.Empty;
+            GeneralClass general = new GeneralClass();
+
+            string select = "SELECT * FROM Users WHERE UserId='" + id + "'";
+            SqlCommand cmd = new SqlCommand(select, con);
+            SqlDataReader read = cmd.ExecuteReader();
+
+            if (read.HasRows)
+            {
+                if (read.Read() == true)
+                {
+                    int _rno = general._random();
+                    string FName = read.GetValue(1).ToString().Split(' ')[0], LName = read.GetValue(1).ToString().Split(' ')[1], Body = "<h4 style=\"background-color:blue; padding:20px;\">Welcome to GOIT</h4><br/><h3 style=\"align:center;\">Please confirm this email by copying the code and inputing it in our confirmation page<br/></h3> <h1>" + _rno + "</h1> <h4 style=\"background-color:blue; padding:20px;\" >Copyright@ GOIT...</h4>";
+                    MyUsername = read.GetValue(3).ToString();
+                    read.Close();
+
+                    string update = "UPDATE Users SET ConfirmCode=" + _rno + " WHERE UserId='" + id + "' ";
+                    SqlCommand ucmd = new SqlCommand(update, con);
+                    SqlDataAdapter sda = new SqlDataAdapter();
+                    sda.UpdateCommand = ucmd;
+                    sda.UpdateCommand.ExecuteNonQuery();
+
+                    general.Mail(_rno, MyUsername, FName, LName, Body, "Confirmation");
+
+                    con.Close();
+
+                    Session["id"] = MyUsername;
+                    Session["password"] = "password";
+
+                    Response.Redirect("Confirm.aspx");
+                }
+            }
+
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Account with username " + MyUsername + " doesn't exist\");", true);
+            }
+
+            con.Close();
+        }
+
+        protected void f_A1_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment1", "APath1", "OrderID", f_ID.Text);
+        }
+
+        protected void f_A2_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment2", "APath2", "OrderID", f_ID.Text);
+        }
+
+        protected void f_A3_Click(object sender, EventArgs e)
+        {
+            file_download("Orders", "Attachment3", "APath3", "OrderID", f_ID.Text);
+        }
+
+        protected void f_zipfile_Click(object sender, EventArgs e)
+        {
+            zip_download("Orders", "ZipFilePath", "OrderID", f_ID.Text);
         }
     }
 }

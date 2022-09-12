@@ -6,6 +6,10 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data.SqlClient;
+using MailKit;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MailKit.Security;
 
 namespace GO_IT
 {
@@ -65,6 +69,85 @@ namespace GO_IT
         protected void login_Click(object sender, EventArgs e)
         {
             Server.Transfer("Login.aspx");
+        }
+
+        protected void submit_Click(object sender, EventArgs e)
+        {
+            HttpCookie _ID = Request.Cookies["myuser"];
+            string _User = _ID != null ? _ID.Value.Split('=')[1] : "undefined";
+
+            if (_name.Value == "" || _name.Value == null)
+            {
+                _errorName.Visible = true;
+                _errorName.Text = "*This field cannot be empty...";
+            }
+
+            else if (_phone.Value == "" || _phone.Value == null)
+            {
+                _errorPhone.Visible = true;
+                _errorPhone.Text = "*This field cannot be empty...";
+            }
+
+            else if (_subject.Value == "" || _subject.Value == null)
+            {
+                _errorSubject.Visible = true;
+                _errorSubject.Text = "*This field cannot be empty...";
+            }
+
+            else if (_message.Value == "" || _message.Value == null)
+            {
+                _errorMessage.Visible = true;
+                _errorMessage.Text = "*This field cannot be empty...";
+            }
+
+            else
+            {
+                try
+                {
+                    var message = new MimeMessage();
+                    message.From.Add(new MailboxAddress(_name.Value, _User));
+                    message.To.Add(new MailboxAddress("GO-IT", "onukwilip@gmail.com"));
+                    message.Subject = _subject.Value;
+
+                    message.Body = new TextPart("html")
+                    {
+                        Text = _message.Value
+                    };
+
+                    using (var client = new SmtpClient())
+                    {
+                        // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                        client.ServerCertificateValidationCallback = (s, c, h, t) => true;
+
+                        client.Connect("smtp.gmail.com", 587, false);
+
+                        // Note: only needed if the SMTP server requires authentication
+                        client.Authenticate("onukwilip@gmail.com", "pivwvtojhaqeibge");
+
+                        client.Send(message);
+                        client.Disconnect(true);
+                    }
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Message sent successfully\");", true);
+                }
+                catch (Exception ex)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"" + ex.Message + "\");", true);
+                }
+            }
+        }
+
+        protected void reset_Click(object sender, EventArgs e)
+        {
+            _name.Value = null;
+            _phone.Value = null;
+            _subject.Value = null;
+            _message.Value = null;
+            //Errors
+            _errorName.Visible = false;
+            _errorPhone.Visible = false;
+            _errorSubject.Visible = false;
+            _errorMessage.Visible = false;
         }
 
     }

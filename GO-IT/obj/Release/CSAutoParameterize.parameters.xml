@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="dbconnect-Web.config Connection String" description="dbconnect Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:goit.database.windows.net,1433; Initial Catalog=GOIT; Persist Security Info=False; User ID=princeOnukwili; Password=agoziePa55w0rd2006+_; MultipleActiveResultSets=False; Encrypt=True; TrustServerCertificate=False; Connection Timeout=3600;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\User1\\Desktop\\GO-IT\\GO-IT\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='dbconnect']/@connectionString" />
+  </parameter>
+</parameters>

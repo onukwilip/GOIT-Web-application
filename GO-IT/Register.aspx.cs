@@ -87,7 +87,7 @@ namespace GO_IT
                     client.Connect("smtp.gmail.com", 587, false);
 
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("onukwilip@gmail.com", "onukwilip2006+_");
+                    client.Authenticate("onukwilip@gmail.com", "pivwvtojhaqeibge");
 
                     client.Send(message);
                     client.Disconnect(true);
@@ -188,7 +188,7 @@ namespace GO_IT
                             client.Connect("smtp.gmail.com", 587, false);
 
                             // Note: only needed if the SMTP server requires authentication
-                            client.Authenticate("onukwilip@gmail.com", "onukwilip2006+_");
+                            client.Authenticate("onukwilip@gmail.com", "pivwvtojhaqeibge");
 
                             client.Send(message);
                             client.Disconnect(true);
@@ -254,6 +254,8 @@ namespace GO_IT
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Account with username " + Username.Value + " doesn't exist\");", true);
             }
+
+            con.Close();
         }
 
         protected void signin_Click(object sender, EventArgs e)
@@ -318,6 +320,8 @@ namespace GO_IT
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(\"Invalid username or password\");", true);
             }
+
+            con.Close();
         }
     }
 }
